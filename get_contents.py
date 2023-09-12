@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 from concurrent.futures import ThreadPoolExecutor
 
 news_url = "https://nation.africa"
-content_data={}
+content_data=None
 #read the data and pass it for exctraction
 def load_to_parser():
   import json
