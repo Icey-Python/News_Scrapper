@@ -1,7 +1,7 @@
 from flask import Flask
 import json
 
-app = Flask(__name__)
+app = Flask(__name__,static_folder="static")
 
 
 @app.route('/')
@@ -11,7 +11,7 @@ def hello():
 
 @app.route("/news")
 def give_feed():
-  with open('content.json', 'r') as file:
+  with open('static/content.json', 'r') as file:
     data = json.load(file)
     return data
 
