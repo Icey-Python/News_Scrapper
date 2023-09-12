@@ -13,4 +13,8 @@ def hello():
 def give_feed():
   with open('content.json', 'r') as file:
     data = json.load(file)
-    return f"{data}"
+    return data
+
+
+if __name__ == '__main__':
+   app.run()
