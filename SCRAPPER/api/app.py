@@ -3,9 +3,14 @@ import json
 
 app = Flask(__name__)
 
+
 @app.route('/')
 def hello():
-  return "HEllo"
+  return "Hello"
+
+
 @app.route("/news")
 def give_feed():
-  return "json.load('content.json')"
+  with open('conten.json', 'r') as file:
+    data = json.load(file)
+  return data
