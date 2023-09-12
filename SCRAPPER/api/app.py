@@ -3,7 +3,9 @@ import json
 
 app = Flask(__name__)
 
-
+@app.route('/')
+def hello():
+  return "HEllo"
 @app.route("/news")
-def hello_world():
-  return json.load('content.json')
+def give_feed():
+  return "json.load('content.json')"
