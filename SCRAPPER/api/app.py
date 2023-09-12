@@ -11,6 +11,6 @@ def hello():
 
 @app.route("/news")
 def give_feed():
-  with open('conten.json', 'r') as file:
+  with open('content.json', 'r') as file:
     data = json.load(file)
   return data
