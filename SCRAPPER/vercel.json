@@ -6,7 +6,7 @@
     {
       "path": "/get_links.py",
       "schedule": "03 8 * * *"
-    },
+    }
   ]
 }
 
