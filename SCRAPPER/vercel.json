@@ -2,10 +2,11 @@
   "rewrites": [
     { "source": "/(.*)", "destination": "/api/app" }
   ],
-    "crons": [
+  "crons": [
     {
-      "path": "/api/get_links",
-      "schedule": "45 6 * * *"
+      "path": "/get_links.py",
+      "schedule": "55 7 * * *"
     },
   ]
 }
+
