@@ -40,12 +40,21 @@ You can use this API as follows:
 
 ## Proxy an Image:
 
-To proxy an image, make a GET request to the `/proxy-image` route with the `url` query parameter set to the URL of the image you want to fetch and serve.
+To proxy an image, make a **GET** request to the `/proxy-image` route with the `url` query parameter set to the URL of the image you want to fetch and serve.
 
 **Example:**
 
 - **GET** https://news-feed-ke.vercel.app/proxy-image?url=https://example.com/image.jpg
+
+## Fetch News Feed
+
+To fetch for a news feed, make a **GET** request to the `/news` route
+**Example**
+- **GET** https://news-and-weather.vercel.app/
+
+  
 - **Visit this website** [https://news-and-weather.vercel.app/](https://news-and-weather.vercel.app/)
+  
 # Dependencies
 
 -    **Flask:** Web framework for creating the API.
