@@ -44,8 +44,8 @@ To proxy an image, make a GET request to the `/proxy-image` route with the `url`
 
 **Example:**
 
-GET https://news-feed-ke.vercel.app/proxy-image?url=https://example.com/image.jpg
-
+- **GET** https://news-feed-ke.vercel.app/proxy-image?url=https://example.com/image.jpg
+- **Visit this website** [https://news-and-weather.vercel.app/](https://news-and-weather.vercel.app/)
 # Dependencies
 
 -    **Flask:** Web framework for creating the API.
