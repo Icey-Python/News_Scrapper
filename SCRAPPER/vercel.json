@@ -5,7 +5,7 @@
   "crons": [
     {
       "path": "/get_links.py",
-      "schedule": "10 8 * * *"
+      "schedule": "30 1 * * *"
     }
   ]
 }
