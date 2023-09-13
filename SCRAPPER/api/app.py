@@ -1,7 +1,7 @@
 from flask import Flask
 import json
-
-app = Flask(__name__,static_folder="static")
+from os import path
+app = Flask(__name__)
 
 
 @app.route('/')
