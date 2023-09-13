@@ -52,6 +52,7 @@ To fetch for a news feed, make a **GET** request to the `/news` route
 
 **Example**
 - **GET** https://news-feed-ke.vercel.app/news
+  
 
 
   
