@@ -34,14 +34,16 @@ def get_content(link):
   }
   articles_content.append(article_data)
 
-
-with open('static/links.json', 'r') as file:
-  import json
-  data = json.load(file)[0:50]
-
-with ThreadPoolExecutor(max_workers=200) as exec:
-  exec.map(get_content, data)
-
-with open('static/content.json', 'w') as file:
-  import json
-  json.dump(articles_content, file, indent=4)
+def get_content_main():
+  with open('static/links.json', 'r') as file:
+    import json
+    data = json.load(file)[0:50]
+  
+  with ThreadPoolExecutor(max_workers=200) as exec:
+    exec.map(get_content, data)
+  
+  with open('static/content.json', 'w') as file:
+    import json
+    json.dump(articles_content, file, indent=4)
+    
+get_content_main()

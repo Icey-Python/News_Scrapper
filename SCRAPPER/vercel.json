@@ -1,5 +1,11 @@
 {
   "rewrites": [
     { "source": "/(.*)", "destination": "/api/app" }
+  ],
+    "crons": [
+    {
+      "path": "/api/get_links",
+      "schedule": "30 6 * * *"
+    },
   ]
 }

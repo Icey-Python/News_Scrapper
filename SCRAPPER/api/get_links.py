@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 from concurrent.futures import ThreadPoolExecutor
+from get_content import get_content_main
 
 news_url = "https://nation.africa"
 resp = requests.get(news_url)
@@ -65,3 +66,4 @@ def main():
 
 
 main()
+get_content_main()
