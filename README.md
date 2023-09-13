@@ -51,7 +51,8 @@ To proxy an image, make a **GET** request to the `/proxy-image` route with the `
 To fetch for a news feed, make a **GET** request to the `/news` route
 
 **Example**
-- **GET** https://news-and-weather.vercel.app/
+- **GET** https://news-feed-ke.vercel.app/news
+
 
   
 - **Visit this website** [https://news-and-weather.vercel.app/](https://news-and-weather.vercel.app/)
