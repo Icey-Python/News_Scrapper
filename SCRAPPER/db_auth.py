@@ -13,7 +13,6 @@ def insert_to_table(table_name:str,value:dict | list)-> str:
     data, count = supabase.table(table_name).insert(value).execute()
     return f"{data,count}"
 
-
 #fetch data from a table
 def fetch_from_table(table_name:str):
     response = supabase.table(table_name).select("*").execute()

@@ -3,11 +3,8 @@ from flask_cors import CORS, cross_origin  # import CORS
 import requests
 
 from db_auth import fetch_from_table
-
 from get_links import main
-
 from get_content import get_content_main
-
 app = Flask(__name__)
 
 CORS(app)  # enable CORS for whole app
