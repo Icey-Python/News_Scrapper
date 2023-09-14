@@ -2,7 +2,7 @@ name: Daily News Scraper
 
 on:
   schedule:
-    - cron: "20 19 * * *"
+    - cron: "13 22 * * *"
 
 jobs:
 
@@ -18,14 +18,14 @@ jobs:
         python-version: 3.8
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
-        pip install requests beautifulsoup4 python-dotenv supabase
+        python3 -m pip install --upgrade pip
+        pip install requests bs4 python-dotenv supabase
     - name: Scrape articles
       env:
         SUPABASE_URL: ${{ secrets.SUPABASE_URL }} 
         SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
       run: |
-        python SCRAPPER/fetch_articles.py
+        python3 SCRAPPER/fetch_articles.py
     - name: Commit changes
       run: |
         git config --local user.email "action@github.com"
