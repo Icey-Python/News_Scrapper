@@ -29,19 +29,19 @@ key= os.environ.get("SUPABASE_KEY")
 
 supabase_client= create_client(url, key)
 
-print(supabase_client)
 
-# insert data to a table
-def insert_to_table(table_name:str,value:dict | list)-> str:
-    global supabase_client
-    data, count = supabase_client.table(table_name).insert(value).execute()
-    return f"{data,count}"
 
-#fetch data from a table
-def fetch_from_table(table_name:str):
-    global supabase_client
-    response = supabase_client.table(table_name).select("*").execute()
-    return response.data
+# # insert data to a table
+# def insert_to_table(table_name:str,value:dict | list)-> str:
+#     global supabase_client
+#     data, count = supabase_client.table(table_name).insert(value).execute()
+#     return f"{data,count}"
+
+# #fetch data from a table
+# def fetch_from_table(table_name:str):
+#     global supabase_client
+#     response = supabase_client.table(table_name).select("*").execute()
+#     return response.data
 
 
 
@@ -164,7 +164,7 @@ def get_content_main(data:list):
 @app.route('/')
 @cross_origin()
 def hello():
-  return "Hello"
+  return f"{supabase_client}"
 
 
 @app.route('/proxy-image')
