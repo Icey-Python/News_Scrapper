@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 from concurrent.futures import ThreadPoolExecutor
-
+from SCRAPPER.superbaseCRUD import fetch_from_table, insert_to_table
 articles_content = []
 
 

@@ -2,7 +2,7 @@ from flask import Flask, request, Response
 from flask_cors import CORS, cross_origin  # import CORS
 import requests
 import json
-from superbase_crud import insert_to_table, fetch_from_table
+from SCRAPPER.superbaseCRUD import insert_to_table, fetch_from_table
 from get_content import get_content_main
 
 app = Flask(__name__)
@@ -34,7 +34,7 @@ def proxy_image():
 def give_feed():
   with open('static/content.json', 'r') as file:
     data = json.load(file)
-  return data
+  
 
 @app.route('/api/dev/update')
 @cross_origin()
