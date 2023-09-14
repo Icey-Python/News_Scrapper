@@ -44,15 +44,15 @@ def flatten_list(list_to_flatten):
 
 def get_links(elem):
   article_links.append({"link": (news_url + elem.get('href'))})
+  
 
 
 def main():
   global article_tags
   get_categories()
   print('Categories Obtained')
-
   with ThreadPoolExecutor(max_workers=50) as executor:
-    executor.map(get_article_links, links)
+    executor.map(get_article_links, links[0:3])
 
   print('articles obtained')
 
@@ -60,10 +60,9 @@ def main():
 
   with ThreadPoolExecutor(max_workers=200) as exec:
     exec.map(get_links, article_tags)
-  
+  print(article_links)
   insert_to_table('news_links',article_links)
-  #parseing the article content
-  get_content_main(article_links)
 
-  return (f"Fetched: {len(article_links)} articles succesfully")
+
+  return article_links
 

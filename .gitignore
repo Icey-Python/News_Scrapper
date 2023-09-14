@@ -1,0 +1,11 @@
+# Ignore all .env files
+*.env
+
+# Ignore all .pycache directories
+**/__pycache__/
+
+# Ignore all .DS_Store files
+.DS_Store
+
+#all libs ignored
+*/.pythonlibs/

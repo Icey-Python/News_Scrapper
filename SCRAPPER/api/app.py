@@ -1,7 +1,11 @@
 from flask import Flask, request, Response
 from flask_cors import CORS, cross_origin  # import CORS
 import requests
-import json
+
+from db_auth import fetch_from_table
+
+from get_links import main
+
 from get_content import get_content_main
 
 app = Flask(__name__)
@@ -31,10 +35,18 @@ def proxy_image():
 @app.route("/news")
 @cross_origin()  # enable CORS for this route
 def give_feed():
-  with open('static/content.json', 'r') as file:
-    data = json.load(file)
-  return data
+  return fetch_from_table('news_content')
+  
 
+@app.route('/api/dev/update')
+@cross_origin()
+def update_news_feed():
+  #update news feed 
+  # - **add the return to this method below**
+  data_list = main()
+  get_content_main(data_list)
+  
+  return "Information fetched"
 
 @app.route("/api/dev/update")
 @cross_origin()
