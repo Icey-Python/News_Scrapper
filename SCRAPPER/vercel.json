@@ -4,7 +4,7 @@
   ],
   "crons": [
     {
-      "path": "/api/dev/update",
+      "path": "/news/count",
       "schedule": "30 2 * * *"
     }
   ]
