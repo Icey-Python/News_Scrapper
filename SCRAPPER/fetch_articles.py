@@ -61,7 +61,7 @@ def main():
   get_categories()
   print('Categories Obtained')
   with ThreadPoolExecutor(max_workers=50) as executor:
-    executor.map(get_article_links, links[0:10])#request limiting
+    executor.map(get_article_links, links)#request limiting
 
   print('articles obtained')
 
@@ -69,7 +69,6 @@ def main():
 
   with ThreadPoolExecutor(max_workers=200) as exec:
     exec.map(get_links, article_tags)
-    supabase_client.table("news_links").insert("article_links").execute()
   return article_links
 
 
@@ -131,9 +130,11 @@ def get_content(link_object:dict):
 
 def get_content_main(data:list): 
 
-  with ThreadPoolExecutor(max_workers=200) as exec:
+  with ThreadPoolExecutor(max_workers=1000) as exec:
     exec.map(get_content,data)
-  supabase_client.table("news_content").insert(articles_content).execute()
+
   print(articles_content)
+  supabase_client.table("news_content").insert(articles_content).execute()
+
 #call the function with the returned data as param
 get_content_main(main())
