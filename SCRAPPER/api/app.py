@@ -31,15 +31,15 @@ supabase_client= create_client(url, key)
 
 print(supabase_client)
 
-# # insert data to a table
-# def insert_to_table(table_name:str,value:dict | list)-> str:
-#     data, count = supabase.table(table_name).insert(value).execute()
-#     return f"{data,count}"
+# insert data to a table
+def insert_to_table(table_name:str,value:dict | list)-> str:
+    data, count = supabase_client.table(table_name).insert(value).execute()
+    return f"{data,count}"
 
-# #fetch data from a table
-# def fetch_from_table(table_name:str):
-#     response = supabase.table(table_name).select("*").execute()
-#     return response.data
+#fetch data from a table
+def fetch_from_table(table_name:str):
+    response = supabase_client.table(table_name).select("*").execute()
+    return response.data
 
 
 
