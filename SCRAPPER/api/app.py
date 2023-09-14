@@ -48,11 +48,6 @@ def update_news_feed():
   
   return "Information fetched"
 
-@app.route("/api/dev/update")
-@cross_origin()
-def update_news_feed():
-  get_content_main()
-  return "content feched sucessfully"
 
 
 if __name__ == '__main__':
