@@ -24,8 +24,9 @@ app = Flask(__name__)
 
 CORS(app)  # enable CORS for whole app
 
-url: str = os.environ.get("SUPABASE_URL")
-key: str = os.environ.get("SUPABASE_KEY")
+url: str = "https://bhouznvrhnecmtrojujo.supabase.co"
+key: str = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJob3V6bnZyaG5lY210cm9qdWpvIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY5NDY2NzA2MywiZXhwIjoyMDEwMjQzMDYzfQ.ditBmMSUYkWuCbcr1qflOciEJdHARU8mKptSZwj24Ew"
+
 
 supabase: Client = create_client(url, key)
 
