@@ -57,23 +57,25 @@ def get_links(elem):
 
 
 def main():
-  global article_tags
+  global article_links,article_tags
   get_categories()
   print('Categories Obtained')
   with ThreadPoolExecutor(max_workers=50) as executor:
-    executor.map(get_article_links, links)#request limiting
+    executor.map(get_article_links,links)#request limiting
 
   print('articles obtained')
 
   article_tags = flatten_list(article_tags)
 
-  with ThreadPoolExecutor(max_workers=200) as exec:
+  with ThreadPoolExecutor(max_workers=20) as exec:
     exec.map(get_links, article_tags)
-  return article_links
+  print(f"Articles:{article_links}")
+  # return article_links
 
 
 
 def get_content(link_object:dict):
+  print(link_object['link'])
   resp = requests.get(link_object['link'])
   soup = BeautifulSoup(resp.content, 'html.parser')
   try:
@@ -124,17 +126,16 @@ def get_content(link_object:dict):
       "image_description": f"{image_description}",  
       "category": f"{category}",
       "source": "Daily Nation",
-      "sort_data":date_tz
+      "sort_data":f"{date_tz}"
   }
-  articles_content.append(data_to_db)
+  content = supabase_client.table("news_content").insert(data_to_db).execute()
+  print(content.data)
 
 def get_content_main(data:list): 
-
-  with ThreadPoolExecutor(max_workers=1000) as exec:
+  main() 
+  with ThreadPoolExecutor(max_workers=10) as exec:
     exec.map(get_content,data)
 
-  print(articles_content)
-  supabase_client.table("news_content").insert(articles_content).execute()
 
 #call the function with the returned data as param
-get_content_main(main())
+get_content_main(article_links)
