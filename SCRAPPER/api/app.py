@@ -54,13 +54,13 @@ def send_categories(category):
     categorical_data= supabase_client.table('news_content').select('*').eq('category',category).execute().data
     msg = categorical_data
   except:
-    msg = "invalid category: check the categories using /news/get_categories"
+    msg = "invalid category: check the categories using /news/categories"
 
-    return msg
+  return msg
 
 @app.route('/news/categories')
 @cross_origin()
-def send_categories():
+def fetch_categories():
   # Category types
   categories= supabase_client.table('news_content').select('category').execute()
   return categories
