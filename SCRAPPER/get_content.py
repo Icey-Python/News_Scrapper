@@ -46,4 +46,3 @@ def get_content_main():
     import json
     json.dump(articles_content, file, indent=4)
     
-get_content_main()
