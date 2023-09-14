@@ -42,12 +42,13 @@ def proxy_image():
 @app.route("/news")
 @cross_origin()  # enable CORS for this route
 def give_feed():
+  from datetime import datetime
   response = supabase_client.table("news_content").select("*").execute().data
   # Sort the list in descending order based on the 'sort_data' key
-  sorted_list_descending = sorted(response, key=lambda x: x['sort_data'], reverse=True)
+  sorted_list_descending = sorted(response, key=lambda x: datetime.fromisoformat(x['sort_data']), reverse=True)
 
-  # Print the sorted list in descending order
-  sorted_list_descending
+
+  
 
   return sorted_list_descending
   
