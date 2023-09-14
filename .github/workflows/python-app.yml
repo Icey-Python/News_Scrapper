@@ -2,7 +2,7 @@ name: Daily News Scraper
 
 on:
   schedule:
-    - cron: "41 00 * * *"
+    - cron: "55 00 * * *"
 
 jobs:
 
@@ -19,7 +19,7 @@ jobs:
     - name: Install dependencies
       run: |
         python3 -m pip install --upgrade pip
-        pip install requests beautifulsoup4 python-dotenv supabase
+        pip install requests bs4 python-dotenv supabase
     - name: Scrape articles
       env:
         SUPABASE_URL: ${{ secrets.SUPABASE_URL }} 
