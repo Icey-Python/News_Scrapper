@@ -61,7 +61,7 @@ def main():
   get_categories()
   print('Categories Obtained')
   with ThreadPoolExecutor(max_workers=50) as executor:
-    executor.map(get_article_links,links)#request limiting
+    executor.map(get_article_links,links[0:10])#request limiting
 
   print('articles obtained')
 
