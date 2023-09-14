@@ -63,7 +63,7 @@ def send_categories(category):
 def fetch_categories():
   # Category types
   categories= supabase_client.table('news_content').select('category').execute().data
-  return list(set(categories))
+  return {d['category']:True for d in categories}
 
 @app.route('/news/count')
 @cross_origin()
