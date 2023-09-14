@@ -4,7 +4,7 @@
   ],
   "crons": [
     {
-      "path": "/get_links.py",
+      "path": "/api/dev/update",
       "schedule": "30 1 * * *"
     }
   ]

@@ -5,6 +5,7 @@ import requests
 from db_auth import fetch_from_table
 
 from get_links import main
+
 from get_content import get_content_main
 
 app = Flask(__name__)
@@ -46,6 +47,13 @@ def update_news_feed():
   get_content_main(data_list)
   
   return "Information fetched"
+
+@app.route("/api/dev/update")
+@cross_origin()
+def update_news_feed():
+  get_content_main()
+  return "content feched sucessfully"
+
 
 if __name__ == '__main__':
   app.run()

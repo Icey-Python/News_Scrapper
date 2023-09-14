@@ -67,4 +67,3 @@ def get_content_main(data:list):
 
   insert_to_table('news_content',articles_content)
   
-
