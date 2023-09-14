@@ -31,11 +31,6 @@ supabase_client= create_client(url, key)
 
 
 
-# # insert data to a table
-# def insert_to_table(table_name:str,value:dict | list)-> str:
-#     global supabase_client
-#     data, count = supabase_client.table(table_name).insert(value).execute()
-#     return f"{data,count}"
 
 # #fetch data from a table
 # def fetch_from_table(table_name:str):
@@ -92,8 +87,9 @@ def main():
 
   with ThreadPoolExecutor(max_workers=200) as exec:
     exec.map(get_links, article_tags)
+    supabase_client.table("news_links").insert("article_links").execute()
   return article_links
-  # insert_to_table('news_links',article_links)
+
 
 
 def get_content(link_object:dict):
@@ -155,8 +151,7 @@ def get_content_main(data:list):
 
   with ThreadPoolExecutor(max_workers=200) as exec:
     exec.map(get_content,data)
-
-  # insert_to_table('news_content',articles_content)
+  supabase_client.table("news_content").insert(articles_content).execute()
   
 
 
@@ -193,13 +188,12 @@ def give_feed():
 @app.route('/api/dev/update')
 @cross_origin()
 def update_news_feed():
-  #update news feed 
+  # update news feed 
   # - **add the return to this method below**
-  # data_list = main()
-  # get_content_main(data_list)
-
+  data_list = main()
+  get_content_main(data_list)
   
-  return "Information fetched"
+  return "Information fetched and sent to db"
 
 
 
