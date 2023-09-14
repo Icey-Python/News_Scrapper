@@ -51,13 +51,12 @@ def give_feed():
 def send_categories():
   # update news feed 
   # - **add the return to this method below**
-   
-  return "Categories: {}"
+  categories = supabase_client.table('news_content').select('category').distinct().execute()
+  return categories
 
 @app.route('/news/count')
 def get_count():
-  table = supabase_client.table('news_content')
-  count = table.estimated_row_count()
+  count = len(requests.get('/news'))
   return "There are {} articles in the db".format(count)
 
 
