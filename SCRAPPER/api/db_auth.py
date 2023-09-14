@@ -17,9 +17,6 @@ def insert_to_table(table_name:str,value:dict | list)-> str:
 #fetch data from a table
 def fetch_from_table(table_name:str):
     response = supabase.table(table_name).select("*").execute()
-    return response
+    return response.data
 
 
-
-
-print(fetch_from_table('news_links'))
