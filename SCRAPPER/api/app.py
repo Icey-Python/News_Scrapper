@@ -164,7 +164,7 @@ def get_content_main(data:list):
 @app.route('/')
 @cross_origin()
 def hello():
-  return f"{supabase_client}"
+  return supabase_client
 
 
 @app.route('/proxy-image')
