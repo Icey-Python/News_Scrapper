@@ -5,6 +5,11 @@ import requests
 from bs4 import BeautifulSoup
 from concurrent.futures import ThreadPoolExecutor
 
+import os
+from supabase import create_client, Client
+from dotenv import load_dotenv
+load_dotenv()
+
 news_url = "https://nation.africa"
 resp = requests.get(news_url)
 soup = BeautifulSoup(resp.content, 'html.parser')
@@ -19,11 +24,6 @@ app = Flask(__name__)
 
 CORS(app)  # enable CORS for whole app
 
-import os
-from supabase import create_client, Client
-from dotenv import load_dotenv
-
-load_dotenv()
 url: str = os.environ.get("SUPABASE_URL")
 key: str = os.environ.get("SUPABASE_KEY")
 
