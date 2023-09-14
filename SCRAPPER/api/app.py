@@ -180,7 +180,8 @@ def proxy_image():
 @app.route("/news")
 @cross_origin()  # enable CORS for this route
 def give_feed():
-  return get_content_main(main())
+  get_content_main(main())
+  return articles_content
   
 
 @app.route('/api/dev/update')
