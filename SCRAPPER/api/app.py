@@ -32,7 +32,8 @@ def proxy_image():
 @app.route("/news")
 @cross_origin()  # enable CORS for this route
 def give_feed():
-  return fetch_from_table('news_content')
+  # return fetch_from_table('news_content')
+  return "news route"
   
 
 @app.route('/api/dev/update')
@@ -40,8 +41,9 @@ def give_feed():
 def update_news_feed():
   #update news feed 
   # - **add the return to this method below**
-  data_list = main()
-  get_content_main(data_list)
+  # data_list = main()
+  # get_content_main(data_list)
+  
   
   return "Information fetched"
 
