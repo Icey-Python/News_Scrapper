@@ -6,9 +6,9 @@ from bs4 import BeautifulSoup
 from concurrent.futures import ThreadPoolExecutor
 
 import os
-# from supabase import create_client, Client
-# from dotenv import load_dotenv
-# load_dotenv()
+from supabase import create_client, Client
+from dotenv import load_dotenv
+load_dotenv()
 
 news_url = "https://nation.africa"
 resp = requests.get(news_url)
@@ -24,20 +24,20 @@ app = Flask(__name__)
 
 CORS(app)  # enable CORS for whole app
 
-# url: str = os.environ.get("SUPABASE_URL")
-# key: str = os.environ.get("SUPABASE_KEY")
+url: str = os.environ.get("SUPABASE_URL")
+key: str = os.environ.get("SUPABASE_KEY")
 
-# supabase: Client = create_client(url, key)
+supabase: Client = create_client(url, key)
 
-#insert data to a table
-# def insert_to_table(table_name:str,value:dict | list)-> str:
-#     data, count = supabase.table(table_name).insert(value).execute()
-#     return f"{data,count}"
+# insert data to a table
+def insert_to_table(table_name:str,value:dict | list)-> str:
+    data, count = supabase.table(table_name).insert(value).execute()
+    return f"{data,count}"
 
-# #fetch data from a table
-# def fetch_from_table(table_name:str):
-#     response = supabase.table(table_name).select("*").execute()
-#     return response.data
+#fetch data from a table
+def fetch_from_table(table_name:str):
+    response = supabase.table(table_name).select("*").execute()
+    return response.data
 
 
 
@@ -89,7 +89,7 @@ def main():
   with ThreadPoolExecutor(max_workers=200) as exec:
     exec.map(get_links, article_tags)
   print(article_links)
-  # insert_to_table('news_links',article_links)
+  insert_to_table('news_links',article_links)
 
 
   return "article_links"
@@ -148,14 +148,14 @@ def get_content(link_object:dict):
       "source": "Daily Nation",
       "sort_data":date_tz
   }
-  # articles_content.append(data_to_db)
+  articles_content.append(data_to_db)
 
 def get_content_main(data:list): 
 
   with ThreadPoolExecutor(max_workers=200) as exec:
     exec.map(get_content,data)
 
-  # insert_to_table('news_content',articles_content)
+  insert_to_table('news_content',articles_content)
   
 
 
