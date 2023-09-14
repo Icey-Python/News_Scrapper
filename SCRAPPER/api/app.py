@@ -46,18 +46,29 @@ def give_feed():
   return response.data
   
 
-@app.route('/news/categories')
+@app.route('/news/category/<category>')
 @cross_origin()
-def send_categories():
-  # update news feed 
-  # - **add the return to this method below**
-  categories = supabase_client.table('news_content').select('category').distinct().execute()
-  return categories
+def send_categories(category):
+  # Data based on category
+  try:
+    categorical_data= supabase_client.table('news_content').select('*').eq('category',category).execute().data
+    return categorical_data
+  except:
+    return "invalid category: check the categories using /news/get_categories"
+
+@app.route('/news/get_categories')
+@cross_origin()
+def send_categories(category):
+  # Category types
+  categorical_data= supabase_client.table('news_content').select('category').execute().data
+  return categorical_data
 
 @app.route('/news/count')
+@cross_origin()
 def get_count():
-  count = len(requests.get('/news'))
-  return "There are {} articles in the db".format(count)
+  #articles count
+  res = supabase_client.table('news_content').select('*',count='exact').execute()
+  return "There are {} articles in the db".format(res.count)
 
 
 if __name__ == '__main__':
