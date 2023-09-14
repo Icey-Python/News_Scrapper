@@ -45,10 +45,8 @@ def give_feed():
   from datetime import datetime
   response = supabase_client.table("news_content").select("*").execute().data
   # Sort the list in descending order based on the 'sort_data' key
-  sorted_list_descending = sorted(response, key=lambda x: datetime.fromisoformat(f"{x['sort_data']}"), reverse=True)
-
-  return sorted_list_descending
-  
+ 
+  return response
 
 @app.route('/news/category/<category>')
 @cross_origin()
