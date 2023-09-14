@@ -2,13 +2,13 @@ from flask import Flask, request, Response
 from flask_cors import CORS, cross_origin  # import CORS
 
 import requests
-# from bs4 import BeautifulSoup
-# from concurrent.futures import ThreadPoolExecutor
+from bs4 import BeautifulSoup
+from concurrent.futures import ThreadPoolExecutor
 
-# import os
-# from supabase import create_client, Client
-# from dotenv import load_dotenv
-# load_dotenv()
+import os
+from supabase import create_client, Client
+from dotenv import load_dotenv
+load_dotenv()
 
 # news_url = "https://nation.africa"
 # resp = requests.get(news_url)
@@ -24,20 +24,20 @@ app = Flask(__name__)
 
 CORS(app)  # enable CORS for whole app
 
-# url: str = os.environ.get("SUPABASE_URL")
-# key: str = os.environ.get("SUPABASE_KEY")
+url: str = os.environ.get("SUPABASE_URL")
+key: str = os.environ.get("SUPABASE_KEY")
 
-# supabase: Client = create_client(url, key)
+supabase: Client = create_client(url, key)
 
-# #insert data to a table
-# def insert_to_table(table_name:str,value:dict | list)-> str:
-#     data, count = supabase.table(table_name).insert(value).execute()
-#     return f"{data,count}"
+#insert data to a table
+def insert_to_table(table_name:str,value:dict | list)-> str:
+    data, count = supabase.table(table_name).insert(value).execute()
+    return f"{data,count}"
 
-# #fetch data from a table
-# def fetch_from_table(table_name:str):
-#     response = supabase.table(table_name).select("*").execute()
-#     return response.data
+#fetch data from a table
+def fetch_from_table(table_name:str):
+    response = supabase.table(table_name).select("*").execute()
+    return response.data
 
 
 
