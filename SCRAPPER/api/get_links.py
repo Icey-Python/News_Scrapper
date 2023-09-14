@@ -52,11 +52,11 @@ def main():
   get_categories()
   print('Categories Obtained')
   with ThreadPoolExecutor(max_workers=50) as executor:
-    executor.map(get_article_links, links)
+    executor.map(get_article_links, links[0:3])
 
   print('articles obtained')
 
-  article_tags = flatten_list(article_tags[0:2])
+  article_tags = flatten_list(article_tags)
 
   with ThreadPoolExecutor(max_workers=200) as exec:
     exec.map(get_links, article_tags)
