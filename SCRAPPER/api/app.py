@@ -164,7 +164,7 @@ def get_content_main(data:list):
 @app.route('/')
 @cross_origin()
 def hello():
-  return supabase_client
+  return "hello"
 
 
 @app.route('/proxy-image')
@@ -184,8 +184,10 @@ def proxy_image():
 @app.route("/news")
 @cross_origin()  # enable CORS for this route
 def give_feed():
-  get_content_main(main())
-  return articles_content
+  # get_content_main(main())
+  # return articles_content
+  response = supabase_client.table("news_content").select("*").execute()
+  return response.data
   
 
 @app.route('/api/dev/update')
