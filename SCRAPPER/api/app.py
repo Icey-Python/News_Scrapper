@@ -3,6 +3,7 @@ from flask_cors import CORS, cross_origin  # import CORS
 import requests
 import json
 from get_content import get_content_main
+
 app = Flask(__name__)
 
 CORS(app)  # enable CORS for whole app
@@ -34,11 +35,13 @@ def give_feed():
     data = json.load(file)
   return data
 
+
 @app.route("/api/dev/update")
 @cross_origin()
 def update_news_feed():
   get_content_main()
   return "content feched sucessfully"
-  
+
+
 if __name__ == '__main__':
   app.run()
