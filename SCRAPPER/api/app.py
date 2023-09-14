@@ -54,6 +54,11 @@ def send_categories():
    
   return "Categories: {}"
 
+@app.route('/news/count')
+def get_count():
+  table = supabase_client.table('news_content')
+  count = table.estimated_row_count()
+  return "There are {} articles in the db".format(count)
 
 
 if __name__ == '__main__':
