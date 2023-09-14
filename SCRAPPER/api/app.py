@@ -63,14 +63,14 @@ def send_categories(category):
 def fetch_categories():
   # Category types
   categories= supabase_client.table('news_content').select('category').execute().data
-  return {d['category']:True for d in categories}
+  return [d['category'] for d in categories]
 
 @app.route('/news/count')
 @cross_origin()
 def get_count():
   #articles count
   res = supabase_client.table('news_content').select('*',count='exact').execute()
-  return "There are {} articles in the db".format(res.count)
+  return "Fetched {} articles".format(res.count)
 
 
 if __name__ == '__main__':
