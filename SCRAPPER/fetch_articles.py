@@ -70,7 +70,6 @@ def main():
   with ThreadPoolExecutor(max_workers=20) as exec:
     exec.map(get_links, article_tags)
   print(f"Articles:{article_links}")
-  # return article_links
 
 
 
@@ -133,10 +132,10 @@ def get_content(link_object:dict):
   print(content.data)
 
 def get_content_main(data:list): 
-  main() 
   with ThreadPoolExecutor(max_workers=10) as exec:
     exec.map(get_content,data)
 
 
+main() 
 #call the function with the returned data as param
 get_content_main(article_links)
