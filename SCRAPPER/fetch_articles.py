@@ -61,7 +61,7 @@ def main():
   get_categories()
   print('Categories Obtained')
   with ThreadPoolExecutor(max_workers=200) as executor:
-    executor.map(get_article_links,links[0:2])#request limiting
+    executor.map(get_article_links,links)#request limiting
 
   print('articles obtained')
 
@@ -135,7 +135,7 @@ def get_content_main(data:list):
   print("data to get_content",data)
   with ThreadPoolExecutor(max_workers=10) as exec:
     exec.map(get_content,data)
-
+  print("Content fetched and sent succesfully")
 
 main()
 get_content_main(article_links)
