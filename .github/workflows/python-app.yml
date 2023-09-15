@@ -2,7 +2,7 @@ name: Daily News Scraper
 
 on:
   schedule:
-    - cron: "46 12 * * *"
+    - cron: "48 12 * * *"
 
 jobs:
 
