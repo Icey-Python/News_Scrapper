@@ -53,7 +53,7 @@ def give_feed():
 def send_categories(category):
   # Data based on category
   try:
-    categorical_data= supabase_client.table('news_content').select('*').eq('category',f'{category}').execute().data
+    categorical_data= supabase_client.table('news_content').select('*').order('sort_data',desc=True).limit(100).eq('category',f'{category}').execute().data
     msg = categorical_data
   except:
     msg = "invalid category: check the categories using /news/categories"
