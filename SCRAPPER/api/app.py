@@ -67,7 +67,7 @@ def fetch_categories():
   categories= supabase_client.table('news_content').select('category').execute().data
   category_list = [d['category'] for d in categories]
   unique_categories = set(category_list)
-  return unique_categories
+  return list(unique_categories)
 
 @app.route('/news/count')
 @cross_origin()
