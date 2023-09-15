@@ -11,7 +11,7 @@ url= os.environ.get("SUPABASE_URL")
 key= os.environ.get("SUPABASE_KEY")
 
 supabase_client= create_client(url, key)
-
+print(supabase_client)
 news_url = "https://nation.africa"
 resp = requests.get(news_url)
 soup = BeautifulSoup(resp.content, 'html.parser')
@@ -60,8 +60,8 @@ def main():
   global article_links,article_tags
   get_categories()
   print('Categories Obtained')
-  with ThreadPoolExecutor(max_workers=20) as executor:
-    executor.map(get_article_links,links[0:10])#request limiting
+  with ThreadPoolExecutor(max_workers=200) as executor:
+    executor.map(get_article_links,links[0:2])#request limiting
 
   print('articles obtained')
 
@@ -132,10 +132,10 @@ def get_content(link_object:dict):
   print(content.data)
 
 def get_content_main(data:list): 
+  print("data to get_content",data)
   with ThreadPoolExecutor(max_workers=10) as exec:
     exec.map(get_content,data)
 
 
-main() 
-#call the function with the returned data as param
+main()
 get_content_main(article_links)
