@@ -25,7 +25,7 @@ articles_content = []
 def get_categories():
   #all links to all categories
   categories = soup.find_all('a', {'class': 'categories-nav_link'})
-  with ThreadPoolExecutor(max_workers=200) as TPE:
+  with ThreadPoolExecutor(max_workers=20) as TPE:
     TPE.map(get_links_from_categories, categories)
 
 
@@ -60,7 +60,7 @@ def main():
   global article_links,article_tags
   get_categories()
   print('Categories Obtained')
-  with ThreadPoolExecutor(max_workers=50) as executor:
+  with ThreadPoolExecutor(max_workers=20) as executor:
     executor.map(get_article_links,links[0:10])#request limiting
 
   print('articles obtained')
@@ -75,7 +75,7 @@ def main():
 
 
 def get_content(link_object:dict):
-  print(link_object['link'])
+  print("Obtaining content from Link:",link_object['link'])
   resp = requests.get(link_object['link'])
   soup = BeautifulSoup(resp.content, 'html.parser')
   try:
@@ -128,6 +128,7 @@ def get_content(link_object:dict):
       "source": "Daily Nation",
       "sort_data":f"{date_tz}"
   }
+  print("DOne, data = ",data_to_db)
   content = supabase_client.table("news_content").insert(data_to_db).execute()
   print(content.data)
 
