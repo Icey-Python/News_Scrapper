@@ -54,10 +54,29 @@ def proxy_image():
 @cross_origin()  # enable CORS for this route
 def give_feed():
   from datetime import datetime
-  response = supabase_client.table("news_content").select("*").order('sort_data',desc=True).limit(100).execute().data
-  # Sort the list in descending order based on the 'sort_data' key
+  list_data = supabase_client.table("news_content").select("*").order('sort_data',desc=True).limit(100).execute().data
+  
+    # Create a set to keep track of distinct 'title' values
+  distinct_titles = set()
+
+  # Initialize an empty list to store the result
+  result_list = []
+
+  # Iterate through the original list of dictionaries
+  for d in list_data:
+      title = d['title']
+      
+      # Check if the 'title' is not in the set of distinct titles
+      if title not in distinct_titles:
+          # Add the dictionary to the result list
+          result_list.append(d)
+          
+          # Add the 'title' to the set of distinct titles
+          distinct_titles.add(title)
+
+
  
-  return response
+  return result_list
 
 @app.route('/news/category/<category>')
 @cross_origin()
