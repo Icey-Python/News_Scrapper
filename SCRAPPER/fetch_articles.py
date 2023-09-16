@@ -11,7 +11,6 @@ url= os.environ.get("SUPABASE_URL")
 key= os.environ.get("SUPABASE_KEY")
 
 supabase_client= create_client(url, key)
-print(supabase_client)
 news_url = "https://nation.africa"
 resp = requests.get(news_url)
 soup = BeautifulSoup(resp.content, 'html.parser')
@@ -53,28 +52,32 @@ def flatten_list(list_to_flatten):
 
 def get_links(elem):
   article_links.append({"link": (news_url + elem.get('href'))})
-  
+
+
+
 
 
 def main():
-  global article_links,article_tags
+  global article_links,article_tags,links
   get_categories()
   print('Categories Obtained')
+  print('Categories: {}'.format(len(links)))
   with ThreadPoolExecutor(max_workers=200) as executor:
     executor.map(get_article_links,links)#request limiting
 
   print('articles obtained')
 
   article_tags = flatten_list(article_tags)
+  print("Articles_before",len(article_tags))
+  article_tags =list(set(article_tags))
+  print("Article_tags after:",len(article_tags))
 
   with ThreadPoolExecutor(max_workers=20) as exec:
     exec.map(get_links, article_tags)
-  print(f"Articles:{article_links}")
 
 
 
 def get_content(link_object:dict):
-  print("Obtaining content from Link:",link_object['link'])
   resp = requests.get(link_object['link'])
   soup = BeautifulSoup(resp.content, 'html.parser')
   try:
@@ -127,15 +130,13 @@ def get_content(link_object:dict):
       "source": "Daily Nation",
       "sort_data":f"{date_tz}"
   }
-  print("DOne, data = ",data_to_db)
   content = supabase_client.table("news_content").insert(data_to_db).execute()
-  print(content.data)
+  
 
 def get_content_main(data:list): 
-  print("data to get_content",data)
   with ThreadPoolExecutor(max_workers=10) as exec:
     exec.map(get_content,data)
-  print("Content fetched and sent succesfully")
+  print("Content fetched and sent succesfully {}".format(len(article_links)))
 
 main()
 get_content_main(article_links)

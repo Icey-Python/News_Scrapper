@@ -49,12 +49,16 @@ def proxy_image():
 
     return Response(image_data, headers=response_headers)
 
+def split_list(input_list, sublist_length):
+    return [input_list[i:i + sublist_length] for i in range(0, len(input_list), sublist_length)]
 
+
+content = []
 @app.route("/news")
 @cross_origin()  # enable CORS for this route
 def give_feed():
-  from datetime import datetime
-  list_data = supabase_client.table("news_content").select("*").order('sort_data',desc=True).limit(100).execute().data
+  pageNo = request.args.get('page')
+  list_data = supabase_client.table("news_content").select("*").order('sort_data',desc=True).execute().data
   
     # Create a set to keep track of distinct 'title' values
   distinct_titles = set()
@@ -75,20 +79,57 @@ def give_feed():
           distinct_titles.add(title)
 
 
- 
-  return result_list
+  content = split_list(result_list,50)
+  pages = len(content) - 1
+  if(pageNo):
+    try:
+      page = int(pageNo)
+      # 'page' is now an integer
+      try:
+        return ({
+      "page_count":pages,
+      "content":content[page]
+      })
+      except IndexError:
+        return {"error":f'invalid page number {page},valid page numbers are 0 to {len(content)-1}'}
+    except (ValueError, TypeError):
+      # 'page' is not a valid integer
+      return {"error":"Page number is not an integer"}
+  else:
+    return ({
+      "page_count":pages,
+      "content":content[0]
+      })
 
 @app.route('/news/category/<category>')
 @cross_origin()
 def send_categories(category):
   # Data based on category
   try:
-    categorical_data= supabase_client.table('news_content').select('*').order('sort_data',desc=True).limit(100).eq('category',f'{category}').execute().data
-    msg = categorical_data
+    categorical_data= supabase_client.table('news_content').select('*').order('sort_data',desc=True).eq('category',f'{category}').execute().data
+        # Create a set to keep track of distinct 'title' values
+    distinct_titles = set()
+
+    # Initialize an empty list to store the result
+    result_list = []
+
+    # Iterate through the original list of dictionaries
+    for d in categorical_data:
+        title = d['title']
+        
+        # Check if the 'title' is not in the set of distinct titles
+        if title not in distinct_titles:
+            # Add the dictionary to the result list
+            result_list.append(d)
+            
+            # Add the 'title' to the set of distinct titles
+            distinct_titles.add(title)
+
+    msg = result_list
   except:
     msg = "invalid category: check the categories using /news/categories"
 
-  return msg
+  return {"content":msg}
 
 @app.route('/news/categories')
 @cross_origin()
@@ -104,7 +145,24 @@ def fetch_categories():
 def get_count():
   #articles count
   res = supabase_client.table('news_content').select('*',count='exact').execute()
-  return "Fetched {} articles".format(res.count)
+      # Create a set to keep track of distinct 'title' values
+  distinct_titles = set()
+
+  # Initialize an empty list to store the result
+  result_list = []
+
+  # Iterate through the original list of dictionaries
+  for d in res.data:
+      title = d['title']
+      
+      # Check if the 'title' is not in the set of distinct titles
+      if title not in distinct_titles:
+          # Add the dictionary to the result list
+          result_list.append(d)
+          
+          # Add the 'title' to the set of distinct titles
+          distinct_titles.add(title)
+  return {"message":"Fetched {} articles".format(len(list(result_list))-1)}
 
 #proxy loc data from service
 @app.route("/proxy_location/<key>")
