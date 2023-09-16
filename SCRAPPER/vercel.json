@@ -5,7 +5,7 @@
   "crons": [
     {
       "path": "/news/count",
-      "schedule": "30 2 * * *"
+      "schedule": "*/35 * * * *"
     }
   ]
 }
