@@ -29,14 +29,25 @@ def hello():
 @cross_origin()
 def proxy_image():
   url = request.args.get('url')
-  response = requests.get(url)
-  image_data = response.content
-  response_headers = {
-      'Content-Type': response.headers['Content-Type'],
-      'Access-Control-Allow-Origin': '*'
-  }
+  if(url):
+    response = requests.get(url)
+    image_data = response.content
+    response_headers = {
+        'Content-Type': response.headers['Content-Type'],
+        'Access-Control-Allow-Origin': '*'
+    }
 
-  return Response(image_data, headers=response_headers)
+    return Response(image_data, headers=response_headers)
+  else:
+    url = "https://pioneer-technical.com/wp-content/uploads/2016/12/news-placeholder.png"
+    response = requests.get(url)
+    image_data = response.content
+    response_headers = {
+        'Content-Type': response.headers['Content-Type'],
+        'Access-Control-Allow-Origin': '*'
+    }
+
+    return Response(image_data, headers=response_headers)
 
 
 @app.route("/news")
