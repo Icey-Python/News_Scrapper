@@ -1,12 +1,6 @@
 {
   "rewrites": [
     { "source": "/(.*)", "destination": "/api/app" }
-  ],
-  "crons": [
-    {
-      "path": "/news/count",
-      "schedule": "*/35 * * * *"
-    }
   ]
 }
 
