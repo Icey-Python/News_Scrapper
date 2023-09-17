@@ -164,36 +164,24 @@ def get_count():
           distinct_titles.add(title)
   return {"message":"Fetched {} articles".format(len(list(result_list))-1)}
 
-#proxy loc data from service
-@app.route("/proxy_location/<key>")
-@cross_origin()
-def proxy_data(key):
-  loc = request.args.get('q')
-  loc_key = request.args.get('location_key')
-  if(len(key)>8):
-    #get location key from coords
-    if (loc != ''):
-      resp = requests.get(f"http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey={key}&q={loc}")
-      data = resp.json()
-    #get location weather
-    else:
-      data = 'parameter q is required'
-  else:
-    data = "Please Enter a valid key"
-  return data
 
 #proxy weather from service
-@app.route("/proxy_weather/<loc_key>")
+@app.route("/proxy_weather")
 @cross_origin()
 def get_weather_data(loc_key):
-  key = request.args.get('api_key')
-  print(loc_key,key)
-  if(loc_key):
-        resp = requests.get(f"https://dataservice.accuweather.com/currentconditions/v1/{loc_key}?apikey={key}")
-        data = resp.json()
-  else:
-    data = "You did not pass in a required parameter"
-  return data
+  weather_url = "http://api.weatherapi.com/v1/current.json?key=f305f994d74e46cc93290112231709&q=-1.189310,37.116371"
+
+  data = requests.get(weather_url).json()
+
+  to_return = {
+  "weather":{
+    "is_day":data['current']['is_day'],
+    "text":data['current']['condition']['text'],
+    "icon":f"https:{data['current']['condition']['icon']}",
+    "temp":data['current']['feelslike_c']
+  }
+  }
+  return to_return
 
 if __name__ == '__main__':
   app.run()
