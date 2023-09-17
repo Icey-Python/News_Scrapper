@@ -183,7 +183,7 @@ def get_weather_data():
   }
     return to_return
   else:
-     return {'ERROR':'parameter q (lat,long) is required'} , 500
+     return {'ERROR':'parameter q (lat,long) is required'} 
 
 if __name__ == '__main__':
   app.run()
