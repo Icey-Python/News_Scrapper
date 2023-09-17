@@ -168,20 +168,22 @@ def get_count():
 #proxy weather from service
 @app.route("/proxy_weather")
 @cross_origin()
-def get_weather_data(loc_key):
-  weather_url = "http://api.weatherapi.com/v1/current.json?key=f305f994d74e46cc93290112231709&q=-1.189310,37.116371"
-
-  data = requests.get(weather_url).json()
-
-  to_return = {
-  "weather":{
-    "is_day":data['current']['is_day'],
-    "text":data['current']['condition']['text'],
-    "icon":f"https:{data['current']['condition']['icon']}",
+def get_weather_data():
+  lat_long = request.args.get('q')
+  weather_url = "http://api.weatherapi.com/v1/current.json?key=f305f994d74e46cc93290112231709&q={}".format(lat_long)
+  if(lat_long):
+    data = requests.get(weather_url).json()
+    to_return = {
+    "weather":{
+      "is_day":data['current']['is_day'],
+      "text":data['current']['condition']['text'],
+      "icon":f"https:{data['current']['condition']['icon']}",
     "temp":data['current']['feelslike_c']
   }
   }
-  return to_return
+    return to_return
+  else:
+     return {'ERROR':'parameter q (lat,long) is required'} , 500
 
 if __name__ == '__main__':
   app.run()
