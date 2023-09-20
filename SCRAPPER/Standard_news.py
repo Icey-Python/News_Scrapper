@@ -102,12 +102,52 @@ link_to_articles_by_category = []
 def get_news_categories():
     """Get all news categories from Standard Media KE"""
     soup = BeautifulSoup(data,'html.parser')
-    main_menu = soup.find('nav',{'class':'navbar-light'}).find('div',{'class':'row'}).find('ul',{'class':'navbar-nav'}).find_all('li',{'class':'nav-item'})[0:9]
-    
-    for i in main_menu:
-        name:str = (i.get_text()).strip().lower()
-        link:str = i.find('a').get('href')
-        categories.append({"category":name,"link":link})
+    try:
+        main_menu = soup.find('nav',{'class':'navbar-light'}).find('div',{'class':'row'}).find('ul',{'class':'navbar-nav'}).find_all('li',{'class':'nav-item'})[0:9]
+        for i in main_menu:
+            name:str = (i.get_text()).strip().lower()
+            link:str = i.find('a').get('href')
+            categories.append({"category":name,"link":link})
+    except AttributeError:
+        categories = [
+    {
+        'category': 'counties',
+        'link': 'https://www.standardmedia.co.ke/category/1/counties'
+    },
+    {
+        'category': 'politics',
+        'link': 'https://www.standardmedia.co.ke/category/3/politics'
+    },
+    {
+        'category': 'business',
+        'link': 'https://www.standardmedia.co.ke/business'
+    },
+    {
+        'category': 'world',
+        'link': 'https://www.standardmedia.co.ke/category/5/world'
+    },
+    {
+        'category': 'health',
+        'link': 'https://www.standardmedia.co.ke/health'
+    },
+    {
+        'category': 'sports',
+        'link': 'https://www.standardmedia.co.ke/sports'
+    },
+    {
+        'category': 'entertainment',
+        'link': 'https://www.standardmedia.co.ke/entertainment'
+    },
+    {
+        'category': 'fact check',
+        'link': 'https://www.standardmedia.co.ke/category/480/fact-check'
+    },
+    {
+        'category': 'environment & climate',
+        'link': 'https://www.standardmedia.co.ke/category/63/environment'
+    }
+]
+
     print(f"Obtained the following categories: {categories}, total({len(categories)})")
    
 
@@ -194,6 +234,7 @@ def scrape():
 
     #scrape content from the provided links from articles based on category
     with ThreadPoolExecutor(max_workers=25) as exec:
-        exec.map(get_single_page_content,link_to_articles_by_category[0:3])
+        exec.map(get_single_page_content,link_to_articles_by_category)
     # get_single_page_content(link_to_articles_by_category[0])
-    
+
+scrape()
