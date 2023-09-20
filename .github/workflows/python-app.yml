@@ -26,6 +26,7 @@ jobs:
         SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
       run: |
         python SCRAPPER/fetch_articles.py
+        python SCRAPPER/Standard_news.py
     - name: Commit changes
       run: |
         git config --local user.email "action@github.com"
