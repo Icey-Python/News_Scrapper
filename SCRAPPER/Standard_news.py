@@ -144,12 +144,17 @@ def get_single_page_content(page_obj:dict):
         title = ''
     
     try:
-        content_body = soup.select('p:not(.w-75)')
-        paragraphs = set()
+        content_body = soup.select('div.paywall p:not(.w-75)')
+        paragraphs = []
         for i in content_body:
-            paragraphs.add({(i.get_text()).replace("SIGN UP"," ").replace("Subscribe to our newsletter"," ").replace("By clicking on the SIGN UP button, you agree to our Terms & Conditions and the Privacy Policy"," ").replace("By clicking on the   button, you agree to our Terms & Conditions and the Privacy Policy"," ").replace("Stay informed.", " ").strip()})
+            text = i.get_text().replace('\n','').replace("SIGN UP"," ").replace("Subscribe to our newsletter"," ").replace("By clicking on the SIGN UP button, you agree to our Terms & Conditions and the Privacy Policy"," ").replace("By clicking on the   button, you agree to our Terms & Conditions and the Privacy Policy"," ").replace("Stay informed.", " ").strip()
+            paragraphs.append(text)
         paragraphs = " ".join(map(str, paragraphs))
-
+        paragraphs = paragraphs.split('.')
+        
+        updated_paragraphs = set()
+        updated_paragraphs.update(paragraphs)
+        paragraphs = "".join(updated_paragraphs)
     except AttributeError:
         paragraphs = ''
     try:
@@ -180,17 +185,15 @@ def get_single_page_content(page_obj:dict):
     "source": f"{source}",
     "sort_data":f"{date_updated}"
     }
-    print(paragraphs)
-    content = supabase_client.table("news_content").insert(news_article_object).execute()
+    supabase_client.table("news_content").insert(news_article_object).execute()
 
 def scrape():
     get_news_categories()
     with ThreadPoolExecutor(max_workers=25) as exec:
         exec.map(get_article_links_from_category,categories)
 
-    # #scrape content from the provided links from articles based on category
-    # with ThreadPoolExecutor(max_workers=25) as exec:
-    #     exec.map(get_single_page_content,link_to_articles_by_category[0:3])
-    get_single_page_content(link_to_articles_by_category[0])
+    #scrape content from the provided links from articles based on category
+    with ThreadPoolExecutor(max_workers=25) as exec:
+        exec.map(get_single_page_content,link_to_articles_by_category[0:3])
+    # get_single_page_content(link_to_articles_by_category[0])
     
-scrape()
