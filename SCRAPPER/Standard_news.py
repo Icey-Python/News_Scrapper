@@ -147,7 +147,8 @@ def get_single_page_content(page_obj:dict):
         content_body = soup.select('p:not(.w-75)')
         paragraphs = set()
         for i in content_body:
-            paragraphs.add(f'{(i.get_text()).replace("SIGN UP"," ").replace("Subscribe to our newsletter"," ").replace("By clicking on the SIGN UP button, you agree to our Terms & Conditions and the Privacy Policy"," ").replace("By clicking on the   button, you agree to our Terms & Conditions and the Privacy Policy"," ").replace("Stay informed.", " ").strip()}')
+            paragraphs.add({(i.get_text()).replace("SIGN UP"," ").replace("Subscribe to our newsletter"," ").replace("By clicking on the SIGN UP button, you agree to our Terms & Conditions and the Privacy Policy"," ").replace("By clicking on the   button, you agree to our Terms & Conditions and the Privacy Policy"," ").replace("Stay informed.", " ").strip()})
+        paragraphs = " ".join(map(str, paragraphs))
 
     except AttributeError:
         paragraphs = ''
@@ -179,6 +180,7 @@ def get_single_page_content(page_obj:dict):
     "source": f"{source}",
     "sort_data":f"{date_updated}"
     }
+    print(paragraphs)
     content = supabase_client.table("news_content").insert(news_article_object).execute()
 
 def scrape():
@@ -186,8 +188,9 @@ def scrape():
     with ThreadPoolExecutor(max_workers=25) as exec:
         exec.map(get_article_links_from_category,categories)
 
-    #scrape content from the provided links from articles based on category
-    with ThreadPoolExecutor(max_workers=25) as exec:
-        exec.map(get_single_page_content,link_to_articles_by_category)
+    # #scrape content from the provided links from articles based on category
+    # with ThreadPoolExecutor(max_workers=25) as exec:
+    #     exec.map(get_single_page_content,link_to_articles_by_category[0:3])
+    get_single_page_content(link_to_articles_by_category[0])
     
 scrape()
