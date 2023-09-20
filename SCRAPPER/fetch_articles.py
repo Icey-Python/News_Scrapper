@@ -140,3 +140,7 @@ def get_content_main(data:list):
 
 main()
 get_content_main(article_links)
+
+#new news source
+from Standard_news import scrape
+scrape()
