@@ -100,6 +100,7 @@ link_to_articles_by_category = []
 #scraping logic
 #get all categories from the menu
 def get_news_categories():
+    global categories
     """Get all news categories from Standard Media KE"""
     soup = BeautifulSoup(data,'html.parser')
     try:
@@ -235,6 +236,5 @@ def scrape():
     #scrape content from the provided links from articles based on category
     with ThreadPoolExecutor(max_workers=25) as exec:
         exec.map(get_single_page_content,link_to_articles_by_category)
-    # get_single_page_content(link_to_articles_by_category[0])
 
 scrape()
