@@ -58,8 +58,8 @@ content = []
 @cross_origin()  # enable CORS for this route
 def give_feed():
   pageNo = request.args.get('page')
-  list_data = supabase_client.table("news_content").select("*").order('sort_data',desc=True).execute().data
-  
+  list_data = supabase_client.table("news_content").select("*").execute().data
+  list_data = sorted(list_data,key=lambda x:x['sort_data'],reverse=True)
     # Create a set to keep track of distinct 'title' values
   distinct_titles = set()
 
