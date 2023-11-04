@@ -106,8 +106,9 @@ def give_feed():
 def send_categories(category):
   # Data based on category
   try:
-    categorical_data= supabase_client.table('news_content').select('*').order('sort_data',desc=True).eq('category',f'{category}').execute().data
+    categorical_data= supabase_client.table('news_content').select('*').eq('category',f'{category}').execute().data
         # Create a set to keep track of distinct 'title' values
+    categorical_data = sorted(categorical_data,key=lambda x:x['sort_data'],reverse=True)
     distinct_titles = set()
 
     # Initialize an empty list to store the result
