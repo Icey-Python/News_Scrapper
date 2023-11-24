@@ -58,29 +58,12 @@ content = []
 @cross_origin()  # enable CORS for this route
 def give_feed():
   pageNo = request.args.get('page')
-  list_data = supabase_client.table("news_content").select("*").execute().data
-  list_data = sorted(list_data,key=lambda x:x['sort_data'],reverse=True)
-    # Create a set to keep track of distinct 'title' values
-  distinct_titles = set()
+  count= int(supabase_client.table("news_content").select('*').limit(5).order('id',desc=True).execute().data[0]['id'])
+  list_data = supabase_client.table("news_content").select("*").filter('id','gt',count - 500).order('sort_data',desc=True).execute().data
 
-  # Initialize an empty list to store the result
-  result_list = []
-
-  # Iterate through the original list of dictionaries
-  for d in list_data:
-      title = d['title']
-      
-      # Check if the 'title' is not in the set of distinct titles
-      if title not in distinct_titles:
-          # Add the dictionary to the result list
-          result_list.append(d)
-          
-          # Add the 'title' to the set of distinct titles
-          distinct_titles.add(title)
-
-
-  content = split_list(result_list,50)
+  content = split_list(list_data,50)
   pages = len(content) - 1
+
   if(pageNo):
     try:
       page = int(pageNo)
@@ -146,7 +129,7 @@ def fetch_categories():
 def get_count():
   #articles count
   res = supabase_client.table('news_content').select('*',count='exact').execute()
-      # Create a set to keep track of distinct 'title' values
+  # Create a set to keep track of distinct 'title' values
   distinct_titles = set()
 
   # Initialize an empty list to store the result
