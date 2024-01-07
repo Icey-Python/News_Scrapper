@@ -96,7 +96,7 @@ def send_categories(category):
         if title not in distinct_titles:
             # Add the dictionary to the result list
             result_list.append(d)
-            
+             
             # Add the 'title' to the set of distinct titles
             distinct_titles.add(title)
 
