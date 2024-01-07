@@ -55,34 +55,23 @@ def split_list(input_list, sublist_length):
 
 content = []
 @app.route("/news")
-@cross_origin()  # enable CORS for this route
+@cross_origin()  
 def give_feed():
-  pageNo = request.args.get('page')
-  count= int(supabase_client.table("news_content").select('*').limit(5).order('id',desc=True).execute().data[0]['id'])
-  list_data = supabase_client.table("news_content").select("*").filter('id','gt',count - 500).order('sort_data',desc=True).execute().data
-
-  content = split_list(list_data,50)
-  pages = len(content) - 1
-
-  if(pageNo):
+    page = request.args.get('page', 0, type=int)
+    data = supabase_client.table("news_content").select("*").order_by("sort_data", descending=True) 
+    content = paginate(data, per_page=50)
+    
     try:
-      page = int(pageNo)
-      # 'page' is now an integer
-      try:
-        return ({
-      "page_count":pages,
-      "content":content[page]
-      })
-      except IndexError:
-        return {"error":f'invalid page number {page},valid page numbers are 0 to {len(content)-1}'}
-    except (ValueError, TypeError):
-      # 'page' is not a valid integer
-      return {"error":"Page number is not an integer"}
-  else:
-    return ({
-      "page_count":pages,
-      "content":content[0]
-      })
+        results = content[page]
+        return {
+            "page_count": len(content) - 1,
+            "content": results
+        }
+    except IndexError: 
+        return {"error": "Invalid page number"}
+        
+def paginate(data, per_page=50):
+    return [data[i:i+per_page] for i in range(0, len(data), per_page)]
 
 @app.route('/news/category/<category>')
 @cross_origin()
@@ -105,7 +94,7 @@ def send_categories(category):
         if title not in distinct_titles:
             # Add the dictionary to the result list
             result_list.append(d)
-            
+             
             # Add the 'title' to the set of distinct titles
             distinct_titles.add(title)
 
