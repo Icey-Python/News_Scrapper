@@ -57,10 +57,10 @@ content = []
 @app.route("/news")
 @cross_origin()  
 def give_feed():
-    page = request.args.get('page', 0, type=int)
-    data = supabase_client.table("news_content").select("*").order("sort_data", descending=True).execute() 
+    page = request.args.get('page',0,type=int)
+    data = supabase_client.table("news_content").select("*").execute().data 
     content = paginate(data, per_page=50)
-    
+    # return data
     try:
         results = content[page]
         return {
