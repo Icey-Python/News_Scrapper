@@ -73,6 +73,7 @@ def give_feed():
 def paginate(data, per_page=50):
     return [data[i:i+per_page] for i in range(0, len(data), per_page)]
 
+
 @app.route('/news/category/<category>')
 @cross_origin()
 def send_categories(category):
