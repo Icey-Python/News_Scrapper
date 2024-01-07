@@ -58,7 +58,7 @@ content = []
 @cross_origin()  
 def give_feed():
     page = request.args.get('page', 0, type=int)
-    data = supabase_client.table("news_content").select("*").order_by("sort_data", descending=True) 
+    data = supabase_client.table("news_content").select("*").order("sort_data", descending=True).execute() 
     content = paginate(data, per_page=50)
     
     try:
