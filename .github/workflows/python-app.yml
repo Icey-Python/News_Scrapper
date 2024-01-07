@@ -37,4 +37,4 @@ jobs:
 
       name: Clean Up
       run: |
-      python SCRAPPER/delete_old_records.py
+        python SCRAPPER/delete_old_records.py
