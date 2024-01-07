@@ -68,7 +68,7 @@ def main():
 
   with ThreadPoolExecutor(max_workers=200) as exec:
     exec.map(get_links, article_tags)
-    supabase_client.table("news_links").insert("article_links").execute()
+    # supabase_client.table("news_links").insert("article_links").execute()
   return article_links
 
 

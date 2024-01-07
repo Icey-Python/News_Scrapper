@@ -9,6 +9,7 @@ from concurrent.futures import ThreadPoolExecutor
 load_dotenv()
 url= os.environ.get("SUPABASE_URL")
 key= os.environ.get("SUPABASE_KEY")
+print("data",url, key)
 
 supabase_client= create_client(url, key)
 news_url = "https://nation.africa"
@@ -99,7 +100,7 @@ def get_content(link_object:dict):
     date_tz = soup.find('time', {'class': 'date'})['datetime'] #2023-09-14T04:19:30Z
   except AttributeError:
     date_updated = ''
-    date_tz = '2000-01-00T00:00:00Z'
+    date_tz = '2023-09-14T04:19:30Z'
   try:
     image = "https://nation.africa" + soup.find('img', {
         'class': 'blk-img'

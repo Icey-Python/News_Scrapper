@@ -27,9 +27,14 @@ jobs:
       run: |
         python SCRAPPER/fetch_articles.py
         python SCRAPPER/Standard_news.py
+
     - name: Commit changes
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add -A
         git diff-index --quiet HEAD || (git commit -a -m "Daily scrape" && git push)
+
+      name: Clean Up
+      run: |
+      python SCRAPPER/delete_old_records.py
