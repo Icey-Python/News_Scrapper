@@ -35,6 +35,6 @@ jobs:
         git add -A
         git diff-index --quiet HEAD || (git commit -a -m "Daily scrape" && git push)
 
-      name: Clean Up
+    - name: Clean Up
       run: |
         python SCRAPPER/delete_old_records.py
