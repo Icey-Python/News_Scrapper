@@ -22,6 +22,15 @@ article_links = []
 articles_section = []
 articles_content = []
 
+#to be used to not append existing records 
+existing_records_object =  supabase_client.table("news_content").select("title").execute().data
+existing_titles = []
+
+for i in existing_records_object:
+    existing_titles.append(i['title'])
+
+print(existing_titles)
+
 def get_categories():
   #all links to all categories
   categories = soup.find_all('a', {'class': 'categories-nav_link'})
@@ -74,7 +83,7 @@ def main():
   print("Article_tags after:",len(article_tags))
 
   with ThreadPoolExecutor(max_workers=20) as exec:
-    exec.map(get_links, article_tags)
+      exec.map(get_links, article_tags[0:20])
 
 
 
@@ -131,8 +140,10 @@ def get_content(link_object:dict):
       "source": "Daily Nation",
       "sort_data":f"{date_tz}"
   }
-  content = supabase_client.table("news_content").insert(data_to_db).execute()
-  
+  if data_to_db['title'] not in existing_titles: 
+      content = supabase_client.table("news_content").insert(data_to_db).execute()
+  else:
+      pass 
 
 def get_content_main(data:list): 
   with ThreadPoolExecutor(max_workers=10) as exec:
