@@ -83,7 +83,7 @@ def main():
   print("Article_tags after:",len(article_tags))
 
   with ThreadPoolExecutor(max_workers=20) as exec:
-      exec.map(get_links, article_tags[0:20])
+      exec.map(get_links, article_tags)
 
 
 
