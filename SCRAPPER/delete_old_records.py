@@ -6,9 +6,9 @@ load_dotenv()
 
 url= os.environ.get("SUPABASE_URL")
 key= os.environ.get("SUPABASE_KEY")
-print("data",url, key)
+print("data:",url, key,end='\n')
 
-supabase_client= create_client(url, key)
+supabase_client= create_client(f"{url}", f"{key}")
 print(url,key)
 
 def delete_old_records():
@@ -16,6 +16,6 @@ def delete_old_records():
     one_day_ago = datetime.now() - timedelta(days=1)
     res = supabase_client.table("news_content").delete().lt("sort_data", one_day_ago.isoformat()).execute()
 
-    print(f"Deleted {res} old records")
+    print(f"Deleted {len(res.data)} old records")
 
 delete_old_records()
