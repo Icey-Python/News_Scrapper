@@ -26,7 +26,7 @@ jobs:
         SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
       run: |
         python SCRAPPER/fetch_articles.py
-        python SCRAPPER/Standard_news.py
+        # python SCRAPPER/Standard_news.py
 
     - name: Commit changes
       run: |
@@ -36,5 +36,8 @@ jobs:
         git diff-index --quiet HEAD || (git commit -a -m "Daily scrape" && git push)
 
     - name: Clean Up
+      env:
+        SUPABASE_KEY: ${{ secrets.SUPABASE_KEY}}
+        SUPABASE_URL: ${{ secrets.SUPABASE_URL}}
       run: |
         python SCRAPPER/delete_old_records.py
