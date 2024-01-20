@@ -153,6 +153,7 @@ def get_content_main(data:list):
     exec.map(get_content,data)
   print("Content fetched and sent succesfully {}".format(len(article_links)))
 
+
 main()
 get_content_main(article_links)
 

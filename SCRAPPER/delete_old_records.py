@@ -8,7 +8,7 @@ url= os.environ.get("SUPABASE_URL")
 key= os.environ.get("SUPABASE_KEY")
 print("data:",url, key,end='\n')
 
-supabase_client= create_client(f"{url}", f"{key}")
+supabase_client= create_client(url, key)
 print(url,key)
 
 def delete_old_records():
