@@ -1,43 +1,37 @@
-name: Daily News Scraper
+name: Scrape
 
 on:
+  push:
+    branches:
+      - main
   schedule:
-    - cron: "*/30 * * * *"
+    - cron: '*/30 * * * *' # Runs every 1/2 hour
 
 jobs:
 
-  scrape:
-
+  commit-articles:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
+
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
-        python-version: 3.8
+        python-version: '3.9'
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install requests bs4 python-dotenv supabase
-    - name: Scrape articles
-      env:
-        SUPABASE_URL: ${{ secrets.SUPABASE_URL }} 
-        SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
-      run: |
-        python SCRAPPER/fetch_articles.py
-        # python SCRAPPER/Standard_news.py
+        pip install requests beautifulsoup4 dateutil
 
-    - name: Commit changes
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add -A
-        git diff-index --quiet HEAD || (git commit -a -m "Daily scrape" && git push)
-
-    - name: Clean Up
+    - name: Run script to fetch and commit articles
       env:
-        SUPABASE_KEY: ${{ secrets.SUPABASE_KEY}}
-        SUPABASE_URL: ${{ secrets.SUPABASE_URL}}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        python SCRAPPER/delete_old_records.py
+        python your_script.py
+        git config --global user.email "ndungusamkelly5@gmail.com"
+        git config --global user.name "Icey-Python"
+        git add articles.json
+        git commit -m "Articles updated at $(date +'%Y-%m-%d %H:%M:%S')" || echo "No changes to commit"
+        git push

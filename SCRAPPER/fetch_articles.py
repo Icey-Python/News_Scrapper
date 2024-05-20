@@ -1,4 +1,4 @@
-import os
+import os,json
 from supabase import create_client, Client
 from dotenv import load_dotenv
 import requests
@@ -58,16 +58,13 @@ def get_links(elem):
   article_links.append({"link": (news_url + elem.get('href'))})
 
 
-
-
-
 def main():
   global article_links,article_tags,links
   get_categories()
   print('Categories Obtained')
   print('Categories: {}'.format(len(links)))
   with ThreadPoolExecutor(max_workers=200) as executor:
-    executor.map(get_article_links,links)#request limiting
+      executor.map(get_article_links,links[0:5])#request limiting
 
   print('articles obtained')
 
@@ -81,78 +78,68 @@ def main():
 
 
 
-def get_content(link_object:dict):
-  resp = requests.get(link_object['link'])
-  soup = BeautifulSoup(resp.content, 'html.parser')
-  try:
-    title = (soup.find('h1', {'class': 'title-medium'}).get_text()).strip()
-  except AttributeError:
-    title = ' '
-  try:
-    content = ""
-    for paragraph in soup.find_all('div', {'class': 'paragraph-wrapper'}):
-      content+=(paragraph.get_text()).strip()+'\n\n'
-  except AttributeError:
-    content = ' '
-  try:
-    author = (soup.find('p', {'class': 'article-authors_authors'}).get_text()).strip()
-  except AttributeError:
-    author = 'anonymous'
-  try:
-    date_updated = (soup.find('time', {'class': 'date'}).get_text()).strip()
-    date_tz = soup.find('time', {'class': 'date'})['datetime'] #2023-09-14T04:19:30Z
-  except AttributeError:
-    date_updated = ''
-    date_tz = '2023-09-14T04:19:30Z'
-  try:
-    image = "https://nation.africa" + soup.find('img', {
-        'class': 'blk-img'
-    }).get('src')
-  except:
-    image=' '
-  try:
-    image_description = (soup.find('figcaption', {
-        'class': 'article-picture_caption'
-    }).get_text()).strip()
-  except AttributeError:
-    image_description = ' '
-  try:
-    category = (soup.find('span', {
-        'class': 'sub-nav_section-title-desktop'
-    }).get_text()).strip()
-  except AttributeError:
-    category = "other"
+def get_content(link_object: dict):
+    resp = requests.get(link_object['link'])
+    soup = BeautifulSoup(resp.content, 'html.parser')
+    try:
+        title = (soup.find('h1', {'class': 'title-medium'}).get_text()).strip()
+    except AttributeError:
+        title = ' '
+    try:
+        content = ""
+        for paragraph in soup.find_all('div', {'class': 'paragraph-wrapper'}):
+            content += (paragraph.get_text()).strip() + '\n\n'
+    except AttributeError:
+        content = ' '
+    try:
+        author = (soup.find('p', {'class': 'article-authors_authors'}).get_text()).strip()
+    except AttributeError:
+        author = 'anonymous'
+    try:
+        date_updated = (soup.find('time', {'class': 'date'}).get_text()).strip()
+        date_tz = soup.find('time', {'class': 'date'})['datetime']  # 2023-09-14T04:19:30Z
+    except AttributeError:
+        date_updated = ''
+        date_tz = '2023-09-14T04:19:30Z'
+    try:
+        image = "https://nation.africa" + soup.find('img', {
+            'class': 'blk-img'
+        }).get('src')
+    except:
+        image = ' '
+    try:
+        image_description = (soup.find('figcaption', {
+            'class': 'article-picture_caption'
+        }).get_text()).strip()
+    except AttributeError:
+        image_description = ' '
+    try:
+        category = (soup.find('span', {
+            'class': 'sub-nav_section-title-desktop'
+        }).get_text()).strip()
+    except AttributeError:
+        category = "other"
 
-  data_to_db ={
-      "title": f"{title}",
-      "content": f"{content}",
-      "author": f"{author}",
-      "date": f"{date_updated}",
-      "image_url": f"{image}",
-      "image_description": f"{image_description}",  
-      "category": f"{category}",
-      "source": "Daily Nation",
-      "sort_data":f"{date_tz}"
-  }
+    data_to_file = {
+        "title": title,
+        "content": content,
+        "author": author,
+        "date": date_updated,
+        "image_url": image,
+        "image_description": image_description,
+        "category": category,
+        "source": "Daily Nation",
+        "sort_data": date_tz
+    }
 
-  #to be used to not append existing records 
-  existing_records_object =  supabase_client.table("news_content").select("title").execute().data
-  existing_titles = []
+    # Write the data to a JSON file
+    with open('articles.json', 'a', encoding='utf-8') as file:
+        file.write(json.dumps(data_to_file, ensure_ascii=False) + '\n')
 
-  for i in existing_records_object:
-    existing_titles.append(i['title'])
-
-  if data_to_db['title'] in existing_titles:
-      print('duplicate',data_to_db['title'])
-      pass
-  else:
-      content = supabase_client.table("news_content").insert(data_to_db).execute()
-
-def get_content_main(data:list): 
-  with ThreadPoolExecutor(max_workers=10) as exec:
-    exec.map(get_content,data)
-  print("Content fetched and sent succesfully {}".format(len(article_links)))
-
+def get_content_main(data: list):
+    with ThreadPoolExecutor(max_workers=10) as exec:
+        exec.map(get_content, data)
+    print(f"Content fetched and written to articles.json ({len(data)} articles)")
 
 main()
 get_content_main(article_links)
