@@ -59,7 +59,7 @@ content = []
 def give_feed():
     page = request.args.get('page', 0, type=int)
     try:
-        with open('articles.json', 'r', encoding='utf-8') as file:
+        with open('../../articles.json', 'r', encoding='utf-8') as file:
             data = [json.loads(line) for line in file]
     except FileNotFoundError:
         return {"error": "articles.json file not found"}
@@ -83,7 +83,7 @@ def paginate(data, per_page=50):
 @cross_origin()
 def send_categories(category):
     try:
-        with open('articles.json', 'r', encoding='utf-8') as file:
+        with open('../../articles.json', 'r', encoding='utf-8') as file:
             data = [json.loads(line) for line in file]
     except FileNotFoundError:
         return {"error": "articles.json file not found"}
@@ -122,7 +122,7 @@ def fetch_categories():
 @cross_origin()
 def get_count():
     try:
-        with open('articles.json', 'r', encoding='utf-8') as file:
+        with open('../../articles.json', 'r', encoding='utf-8') as file:
             data = [json.loads(line) for line in file]
     except FileNotFoundError:
         return {"error": "articles.json file not found"}
