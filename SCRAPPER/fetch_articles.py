@@ -6,11 +6,6 @@ from concurrent.futures import ThreadPoolExecutor
 
 
 load_dotenv()
-url= os.environ.get("SUPABASE_URL")
-key= os.environ.get("SUPABASE_KEY")
-print("data",url, key)
-
-supabase_client= create_client(url, key)
 news_url = "https://nation.africa"
 resp = requests.get(news_url)
 soup = BeautifulSoup(resp.content, 'html.parser')

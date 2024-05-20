@@ -11,11 +11,6 @@ app = Flask(__name__)
 
 CORS(app)  # enable CORS for whole app
 
-url= os.environ.get("SUPABASE_URL")
-key= os.environ.get("SUPABASE_KEY")
-
-supabase_client= create_client(url, key)
-
 
 
 @app.route('/')
