@@ -4,7 +4,6 @@ from flask_cors import CORS, cross_origin  # import CORS
 import requests
 
 import os,json
-from supabase import create_client, Client
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -113,7 +112,9 @@ def send_categories(category):
 @cross_origin()
 def fetch_categories():
   # Category types
-  categories= supabase_client.table('news_content').select('category').execute().data
+  categories = ''
+  with open("../../articles.json","r") as file:
+      categories = [json.loads(line) for line in file]
   category_list = [d['category'] for d in categories]
   unique_categories = set(category_list)
   return list(unique_categories)

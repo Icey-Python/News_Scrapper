@@ -1,5 +1,4 @@
 import os,json
-from supabase import create_client, Client
 from dotenv import load_dotenv
 import requests
 from bs4 import BeautifulSoup
