@@ -3,7 +3,7 @@ from flask_cors import CORS, cross_origin  # import CORS
 
 import requests
 
-import os
+import os,json
 from supabase import create_client, Client
 from dotenv import load_dotenv
 load_dotenv()
@@ -55,55 +55,59 @@ def split_list(input_list, sublist_length):
 
 content = []
 @app.route("/news")
-@cross_origin()  
+@cross_origin()
 def give_feed():
-    page = request.args.get('page',0,type=int)
-    data = supabase_client.table("news_content").select("*").order('sort_data', desc=True).execute().data 
+    page = request.args.get('page', 0, type=int)
+    try:
+        with open('articles.json', 'r', encoding='utf-8') as file:
+            data = [json.loads(line) for line in file]
+    except FileNotFoundError:
+        return {"error": "articles.json file not found"}
+    
+    data = sorted(data, key=lambda x: x['sort_data'], reverse=True)
     content = paginate(data, per_page=50)
-    # return data
     try:
         results = content[page]
         return {
             "page_count": len(content) - 1,
             "content": results
         }
-    except IndexError: 
+    except IndexError:
         return {"error": "Invalid page number"}
-        
+
+
 def paginate(data, per_page=50):
     return [data[i:i+per_page] for i in range(0, len(data), per_page)]
-
 
 @app.route('/news/category/<category>')
 @cross_origin()
 def send_categories(category):
-  # Data based on category
-  try:
-    categorical_data= supabase_client.table('news_content').select('*').eq('category',f'{category}').execute().data
-        # Create a set to keep track of distinct 'title' values
-    categorical_data = sorted(categorical_data,key=lambda x:x['sort_data'],reverse=True)
-    distinct_titles = set()
+    try:
+        with open('articles.json', 'r', encoding='utf-8') as file:
+            data = [json.loads(line) for line in file]
+    except FileNotFoundError:
+        return {"error": "articles.json file not found"}
 
-    # Initialize an empty list to store the result
+    categorical_data = [d for d in data if d['category'].lower() == category.lower()]
+    categorical_data = sorted(categorical_data, key=lambda x: x['sort_data'], reverse=True)
+
+    # Create a set to keep track of distinct 'title' values
+    distinct_titles = set()
     result_list = []
 
     # Iterate through the original list of dictionaries
     for d in categorical_data:
         title = d['title']
-        
+
         # Check if the 'title' is not in the set of distinct titles
         if title not in distinct_titles:
             # Add the dictionary to the result list
             result_list.append(d)
-             
+
             # Add the 'title' to the set of distinct titles
             distinct_titles.add(title)
 
-    msg = result_list
-  except:
-    msg = "invalid category: check the categories using /news/categories"
-
-  return {"content":msg}
+    return {"content": result_list}
 
 @app.route('/news/categories')
 @cross_origin()
@@ -117,27 +121,29 @@ def fetch_categories():
 @app.route('/news/count')
 @cross_origin()
 def get_count():
-  #articles count
-  res = supabase_client.table('news_content').select('*',count='exact').execute()
-  # Create a set to keep track of distinct 'title' values
-  distinct_titles = set()
+    try:
+        with open('articles.json', 'r', encoding='utf-8') as file:
+            data = [json.loads(line) for line in file]
+    except FileNotFoundError:
+        return {"error": "articles.json file not found"}
 
-  # Initialize an empty list to store the result
-  result_list = []
+    # Create a set to keep track of distinct 'title' values
+    distinct_titles = set()
+    result_list = []
 
-  # Iterate through the original list of dictionaries
-  for d in res.data:
-      title = d['title']
-      
-      # Check if the 'title' is not in the set of distinct titles
-      if title not in distinct_titles:
-          # Add the dictionary to the result list
-          result_list.append(d)
-          
-          # Add the 'title' to the set of distinct titles
-          distinct_titles.add(title)
-  return {"message":"Fetched {} articles".format(len(list(result_list))-1)}
+    # Iterate through the original list of dictionaries
+    for d in data:
+        title = d['title']
 
+        # Check if the 'title' is not in the set of distinct titles
+        if title not in distinct_titles:
+            # Add the dictionary to the result list
+            result_list.append(d)
+
+            # Add the 'title' to the set of distinct titles
+            distinct_titles.add(title)
+
+    return {"message": "Fetched {} articles".format(len(result_list))}
 
 #proxy weather from service
 @app.route("/proxy_weather")
