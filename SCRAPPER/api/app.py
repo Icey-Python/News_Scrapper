@@ -1,9 +1,9 @@
-from flask import Flask, request, Response
+from flask import Flask, request, Response, jsonify
 from flask_cors import CORS, cross_origin  # import CORS
 
 import requests
 
-import os,json
+import os,csv
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -16,7 +16,7 @@ CORS(app)  # enable CORS for whole app
 @app.route('/')
 @cross_origin()
 def hello():
-  return "hello"
+  return "hello documentation incoming!"
 
 
 @app.route('/proxy-image')
@@ -53,22 +53,21 @@ content = []
 def give_feed():
     page = request.args.get('page', 0, type=int)
     try:
-        with open('../../articles.json', 'r', encoding='utf-8') as file:
-            data = [json.loads(line) for line in file]
+        with open('../articles.csv', 'r',encoding='utf-8') as file:
+            # Create a CSV reader object
+            reader = csv.DictReader(file)
+            data = []
+            # Iterate over each row in the CSV file
+            for row in reader:
+                # Append the row (as a dictionary) to the data list
+                if(row['title']!= 'title'):
+                    data.append(row)
+            return jsonify({"content":data})
     except FileNotFoundError:
-        return {"error": "articles.json file not found"}
+        print(os.getcwd())
+        return {"error": "articles.csv file not found"}
     
-    data = sorted(data, key=lambda x: x['sort_data'], reverse=True)
-    content = paginate(data, per_page=50)
-    try:
-        results = content[page]
-        return {
-            "page_count": len(content) - 1,
-            "content": results
-        }
-    except IndexError:
-        return {"error": "Invalid page number"}
-
+     
 
 def paginate(data, per_page=50):
     return [data[i:i+per_page] for i in range(0, len(data), per_page)]
@@ -77,69 +76,41 @@ def paginate(data, per_page=50):
 @cross_origin()
 def send_categories(category):
     try:
-        with open('../../articles.json', 'r', encoding='utf-8') as file:
-            data = [json.loads(line) for line in file]
+        category_articles = []
+        with open('../articles.csv', 'r', encoding='utf-8') as file:
+            data = csv.DictReader(file)
+            for row in data:
+                if row['category'] == category:
+                    category_articles.append(row)
+            return jsonify({"content":category_articles})
     except FileNotFoundError:
-        return {"error": "articles.json file not found"}
+        return {"error": "articles.csv file not found"}
 
-    categorical_data = [d for d in data if d['category'].lower() == category.lower()]
-    categorical_data = sorted(categorical_data, key=lambda x: x['sort_data'], reverse=True)
-
-    # Create a set to keep track of distinct 'title' values
-    distinct_titles = set()
-    result_list = []
-
-    # Iterate through the original list of dictionaries
-    for d in categorical_data:
-        title = d['title']
-
-        # Check if the 'title' is not in the set of distinct titles
-        if title not in distinct_titles:
-            # Add the dictionary to the result list
-            result_list.append(d)
-
-            # Add the 'title' to the set of distinct titles
-            distinct_titles.add(title)
-
-    return {"content": result_list}
 
 @app.route('/news/categories')
 @cross_origin()
 def fetch_categories():
-  # Category types
-  categories = ''
-  with open("../../articles.json","r") as file:
-      categories = [json.loads(line) for line in file]
-  category_list = [d['category'] for d in categories]
-  unique_categories = set(category_list)
-  return list(unique_categories)
+    try:
+        categories = set()
+        with open('../articles.csv', 'r', encoding='utf-8') as file:
+            data = csv.DictReader(file)
+            for row in data:
+                categories.add(row['category'])
+    except FileNotFoundError:
+        return {"error": "articles.csv file not found"}
+
+    return {"content": list(categories)}
 
 @app.route('/news/count')
 @cross_origin()
 def get_count():
     try:
-        with open('../../articles.json', 'r', encoding='utf-8') as file:
-            data = [json.loads(line) for line in file]
+        with open('../articles.csv', 'r', encoding='utf-8') as file:
+            data = list(csv.DictReader(file))
+            return jsonify({"content":len(data)})
     except FileNotFoundError:
         return {"error": "articles.json file not found"}
 
-    # Create a set to keep track of distinct 'title' values
-    distinct_titles = set()
-    result_list = []
-
-    # Iterate through the original list of dictionaries
-    for d in data:
-        title = d['title']
-
-        # Check if the 'title' is not in the set of distinct titles
-        if title not in distinct_titles:
-            # Add the dictionary to the result list
-            result_list.append(d)
-
-            # Add the 'title' to the set of distinct titles
-            distinct_titles.add(title)
-
-    return {"message": "Fetched {} articles".format(len(result_list))}
 
 #proxy weather from service
 @app.route("/proxy_weather")
