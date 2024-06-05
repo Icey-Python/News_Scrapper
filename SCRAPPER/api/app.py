@@ -53,7 +53,7 @@ content = []
 def give_feed():
     page = request.args.get('page', 0, type=int)
     try:
-        with open('SCRAPPER/articles.csv', 'r',encoding='utf-8') as file:
+        with open('articles.csv', 'r',encoding='utf-8') as file:
             # Create a CSV reader object
             reader = csv.DictReader(file)
             data = []
@@ -77,7 +77,7 @@ def paginate(data, per_page=50):
 def send_categories(category):
     try:
         category_articles = []
-        with open('SCRAPPER/articles.csv', 'r', encoding='utf-8') as file:
+        with open('articles.csv', 'r', encoding='utf-8') as file:
             data = csv.DictReader(file)
             for row in data:
                 if row['category'] == category:
@@ -92,7 +92,7 @@ def send_categories(category):
 def fetch_categories():
     try:
         categories = set()
-        with open('SCRAPPER/articles.csv', 'r', encoding='utf-8') as file:
+        with open('articles.csv', 'r', encoding='utf-8') as file:
             data = csv.DictReader(file)
             for row in data:
                 categories.add(row['category'])
@@ -105,7 +105,7 @@ def fetch_categories():
 @cross_origin()
 def get_count():
     try:
-        with open('SCRAPPER/articles.csv', 'r', encoding='utf-8') as file:
+        with open('articles.csv', 'r', encoding='utf-8') as file:
             data = list(csv.DictReader(file))
             return jsonify({"content":len(data)})
     except FileNotFoundError:
