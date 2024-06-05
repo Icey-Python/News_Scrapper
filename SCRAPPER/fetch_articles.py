@@ -107,7 +107,7 @@ def main():
 
     article_tags = []
     with ThreadPoolExecutor(max_workers=200) as executor:
-        article_tags_lists = list(executor.map(get_article_links, links[:5]))  # request limited to the first five
+        article_tags_lists = list(executor.map(get_article_links, links))  # request limited to the first five
         article_tags = flatten_list(article_tags_lists)
     
     print('Articles obtained')
