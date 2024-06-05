@@ -1,4 +1,4 @@
-# NEWS FEED KE API README
+# NEWS FEED API README
 
 This is a simple Flask API that serves as a proxy for fetching and serving images and provides a news feed.
 
