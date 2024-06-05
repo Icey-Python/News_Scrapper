@@ -27,11 +27,11 @@ jobs:
 
     - name: Run script to fetch and commit articles
       env:
-        GITHUB_TOKEN: ${{ secrets.PAT}}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
       run: |
         python SCRAPPER/fetch_articles.py
-        git config --global user.email "ndungusamkelly5@gmail.com"
-        git config --global user.name "Icey-Python"
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
         git add articles.json
         git commit -m "Articles updated at $(date +'%Y-%m-%d %H:%M:%S')" || echo "No changes to commit"
         git push
