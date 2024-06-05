@@ -30,7 +30,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
       run: |
         cd SCRAPPER/
-        python SCRAPPER/fetch_articles.py
+        python fetch_articles.py
         cd ..
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
