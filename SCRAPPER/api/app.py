@@ -48,29 +48,38 @@ def split_list(input_list, sublist_length):
 
 
 content = []
+
 @app.route("/news")
 @cross_origin()
 def give_feed():
-    page = request.args.get('page', 0, type=int)
+    page = request.args.get('page', 0, type=int)  # Default page 0 if not specified
+    per_page = 10  # Number of items per page
+    
     try:
-        with open('articles.csv', 'r',encoding='utf-8') as file:
+        with open('articles.csv', 'r', encoding='utf-8') as file:
             # Create a CSV reader object
             reader = csv.DictReader(file)
             data = []
             # Iterate over each row in the CSV file
             for row in reader:
                 # Append the row (as a dictionary) to the data list
-                if(row['title']!= 'title'):
+                if row['title'] != 'title':
                     data.append(row)
-            return jsonify({"content":data})
+            
+            # Paginate the data
+            paginated_data = paginate(data, per_page)
+            
+            # Return data for the requested page
+            if page <= len(paginated_data):
+                return jsonify({"content": paginated_data[page],"pages":len(paginated_data)})
+            else:
+                return jsonify({"error": f"Page {page} not found"})
     except FileNotFoundError:
         print(os.getcwd())
         return {"error": "articles.csv file not found"}
-    
-     
 
 def paginate(data, per_page=50):
-    return [data[i:i+per_page] for i in range(0, len(data), per_page)]
+    return [data[i:i + per_page] for i in range(0, len(data), per_page)]
 
 @app.route('/news/category/<category>')
 @cross_origin()
