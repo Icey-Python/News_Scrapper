@@ -1,3 +1,4 @@
+import logging
 import requests
 from bs4 import BeautifulSoup
 from concurrent.futures import ThreadPoolExecutor
@@ -16,8 +17,9 @@ articles_section = []
 def get_categories():
   #all links to all categories
   categories = soup.find_all('a', {'class': 'categories-nav_link'})
+  print(categories)
   with ThreadPoolExecutor(max_workers=200) as TPE:
-    TPE.map(get_links_from_categories, categories)
+      TPE.map(get_links_from_categories, categories[0:1])
 
 
 def get_links_from_categories(category):
