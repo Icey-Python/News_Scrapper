@@ -1,5 +1,6 @@
 import os
 import csv
+import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 from concurrent.futures import ThreadPoolExecutor
@@ -99,6 +100,10 @@ def save_articles_to_csv(data, filename=output_file):
         if not file_exists:
             writer.writeheader()
         writer.writerows(data)
+    #remove duplicates every time on save
+    df = pd.read_csv(filename)
+    df_deduplicated = df.drop_duplicates(subset=['title'])
+    df_deduplicated.to_csv(filename,index=False)
 
 def sort_csv_by_timestamp(input_file):
     with open(input_file, mode='r', encoding='utf-8') as file:
