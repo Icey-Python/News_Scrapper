@@ -1,6 +1,6 @@
 # Ignore all .env files
 *.env
-dependecies/
+env/
 # Ignore all .pycache directories
 **/__pycache__/
 
