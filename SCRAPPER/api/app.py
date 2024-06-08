@@ -142,5 +142,5 @@ def get_weather_data():
      return {'ERROR':'parameter q (lat,long) is required'} 
 
 if __name__ == '__main__':
-  app.run()
+  app.run(host='0.0.0.0',debug=True)
 
