@@ -9,7 +9,9 @@ This is a simple Flask API that serves as a proxy for fetching and serving image
 - License - MIT
 
 ## Introduction
-#### API_url https://news-feed-ke.vercel.app/
+#### API_urls:
+- https://news-feed-ke.vercel.app/
+- https://news-feed-ke.onrender.com/
 
 This Flask API is designed to provide two main functionalities:
 1. **Image Proxy:** It allows you to proxy and serve images from external URLs.
@@ -44,14 +46,14 @@ To proxy an image, make a **GET** request to the `/proxy-image` route with the `
 
 **Example:**
 
-- **GET** https://news-feed-ke.vercel.app/proxy-image?url=https://example.com/image.jpg
+- **GET** https://news-feed-ke.vercel.app/proxy-image?url=https://example.com/image.jpg or https://news-feed-ke.onrender.com/proxy-image?url=https://example.com/image.jpg
 
 ## Fetch News Feed
 
 To fetch for a news feed, make a **GET** request to the `/news` route
 
 **Example**
-- **GET** https://news-feed-ke.vercel.app/news
+- **GET** https://news-feed-ke.vercel.app/news or https://news-feed-ke.onrender.com/news
   
 
 
