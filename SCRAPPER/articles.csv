@@ -34,6 +34,78 @@ Dr Ngunga is a consultant interventional cardiologist at Aga Khan University Hos
 ","By 
 DR MZEE NGUNGA","Friday, June 14, 2024",https://nation.africa/resource/image/4645366/landscape_ratio2x1/320/160/b316b909aedd4220487675fe3cce0e91/JN/cholesterol.jpg,"Cholesterol plaque in an artery.
 Photo credit: SHUTTERSTOCK",other,Daily Nation,2024-06-14T02:45:00Z
+"Decoded: African elephants address one another with names, just like humans","What’s in a name? People use unique names to address each other, but we’re one of only a handful of animal species known to do that, including bottlenose dolphins. Finding more animals with names and investigating how they use them can improve scientists’ understanding of both other animals and ourselves.
+
+As elephant researchers who have observed free-ranging elephants for years, my colleagues and I get to know wild elephants as individuals, and we make up names for them that help us remember who is who. The elephants in question live fully in the wild and are, of course, unaware of the epithets we apply to them.
+
+But in a new study published in Nature Ecology and Evolution, we found evidence that elephants have their own names that they use to address each other. This research places elephants among the very small number of species known to address one another in this way, and it has implications for scientists’ understanding of animal intelligence and the evolutionary origins of language.
+
+Finding evidence for name-like calls
+
+My colleagues and I had long suspected that elephants might be able to address one another with name-like calls, but no researchers had tested that idea. To explore this question, we followed elephants across the Kenyan savanna, recording their vocalizations and noting, whenever possible, who made each call and whom the call was addressed to.
+
+When most people think of elephant calls, they imagine loud trumpets. But really, most elephant calls are deep, thrumming sounds known as rumbles that are partially below the range of human hearing. We thought that if elephants have names, they most likely say them in rumbles, so we focused on these calls in our analysis.
+
+Scientists call elephant by name, and she calls back
+
+Scientists call elephant by name, and she calls back
+
+We reasoned that if rumbles contain something like a name, then we should be able to identify whom a call is intended for based purely on the call’s properties. To determine whether this was the case, we trained a machine learning model to identify the recipient of each call.
+
+We fed the model a series of numbers describing the sound properties of each call and told it which elephant each call was addressed to. Based on this information, the model tried to learn patterns in the calls associated with the identity of the recipient. Then, we asked the model to predict the recipient for a separate sample of calls. We used a total of 437 calls from 99 individual callers to train the model.
+
+Part of the reason we needed to use machine learning for this analysis is because rumbles convey multiple messages at once, including the identity, age and sex of the caller, emotional state and behavioral context. Names are likely only one small component within these calls. A computer algorithm is often better than the human ear at detecting such complex and subtle patterns.
+
+We didn’t expect elephants to use names in every call, but we had no way of knowing ahead of time which calls might contain a name. So, we included all the rumbles where we thought they might use names at least some of the time in this analysis.
+
+The model successfully identified the recipient for 27.5% of these calls – significantly better than what it would have achieved by randomly guessing. This result indicated that some rumbles contained information that allowed the model to identify the intended recipient of the call.
+
+But this result alone wasn’t enough evidence to conclude that the rumbles contained names. For example, the model might have picked up on the unique voice patterns of the caller and guessed who the recipient was based on whom the caller tended to address the most.
+
+In our next analysis, we found that calls from the same caller to the same recipient were significantly more similar, on average, than calls from the same caller to different recipients. This meant that the calls really were specific to individual recipients, like a name.
+
+Next, we wanted to determine whether elephants could perceive and respond to their names. To figure that out, we played 17 elephants a recording of a call that was originally addressed to them that we assumed contained their name. Then, on a separate day, we played them a recording of the same caller addressing someone else.
+
+Elephants at Amboseli 
+Photo credit: POOL
+
+The elephants vocalized and approached the source of the sound more readily when the call was one originally addressed to them. On average, they approached the speaker 128 seconds sooner, vocalized 87 seconds sooner and produced 2.3 times more vocalizations in response to a call that was intended for them. That result told us that elephants can determine whether a call was meant for them just by hearing the call out of context.
+
+Names without imitation
+
+Elephants are not the only animals with name-like calls. Bottlenose dolphins and some parrots address other individuals by imitating the signature call of the addressee, which is a unique “call sign” that dolphins and parrots usually use to announce their own identity.
+
+This system of naming via imitation is a little different from the way names and other words typically work in human language. While we do occasionally name things by imitating the sounds that they make, such as “cuckoo” and “zipper,” most of our words are arbitrary. They have no inherent acoustic connection to the thing they refer to.
+
+Arbitrary words are part of what allows us to talk about such a wide range of topics, including objects and ideas that don’t make any sound.
+
+Intriguingly, we found that elephant calls addressed to a particular recipient were no more similar to the recipient’s calls than to the calls of other individuals. This finding suggested that like humans, but unlike other animals, elephants may address one another without just imitating the addressee’s calls.
+
+What’s next
+
+We’re still not sure exactly where the elephant names are located within a call or how to tease them apart from all of the other information conveyed in a rumble.
+
+Next, we want to figure out how to isolate the names for specific individuals. Achieving that will allow us to address a range of other questions, such as whether different callers use the same name to address the same recipient, how elephants acquire their names, and even whether they ever talk about others in their absence.
+
+Name-like calls in elephants could potentially tell researchers something about how human language evolved.
+
+Most mammals, including our closest primate relatives, produce only a fixed set of vocalizations that are essentially preprogrammed into their brain at birth. But language depends on being able to learn new words.
+
+So, before our ancestors could develop a full-fledged language, they needed to evolve the ability to learn new vocalizations. Dolphins, parrots and elephants have all independently evolved this capacity, and they all use it to address one another by name.
+
+Maybe our ancestors originally evolved the ability to learn new vocalizations in order to learn names for each other, and then later co-opted this ability to learn a wider range of words.
+
+Our findings also underscore how incredibly complex elephants are. Using arbitrary sounds to name other individuals implies a capacity for abstract thought, as it involves using sound as a symbol to represent another elephant.
+
+The fact that elephants need to name each other in the first place highlights the importance of their many, distinct social bonds.
+
+Learning about the elephant mind and its similarities to ours may also increase humans’ appreciation for elephants at a time when conflict with humans is one of the biggest threats to wild elephant survival.
+
+By Mickey Pardo, Postdoctoral Fellow in Fish, Wildlife and Conservation Biology, Colorado State University.
+
+","By 
+The Conversation","Thursday, June 13, 2024",https://nation.africa/resource/image/3887030/landscape_ratio2x1/320/160/5070753bb03f36c367a61d9235c497f7/Er/elephant-pix.jpg,"Elephants (the world's largest mammals) grazing at the Maasai Mara on January 25, 2021.
+Photo credit: File | Nation Media Group",other,Daily Nation,2024-06-13T06:20:45Z
 "Have unpaid Hustler loan? Settle or else, warns State on defaults","The government has stepped up efforts to recover billions of shillings in loans to Kenyans under the Hustler Fund amid spiralling defaults under the scheme that was launched last year.
 
 Borrowers who have defaulted for over a year have been receiving notices to repay or face fines as the State acts to cut size of unpaid loans, which stood at Sh9.9 billion as of October last year.
